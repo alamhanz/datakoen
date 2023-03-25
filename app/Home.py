@@ -1,7 +1,7 @@
 import streamlit as st
 import yaml
 from pages.tools.utils import head, basicsidebar
-from pages.tools.assets import set_icon
+from pages.tools.assets import set_icon, set_bg
 import polars as pl
 
 # read config
@@ -11,7 +11,7 @@ zippath = st.session_state['config']['zippath']
 
 # First Part
 set_icon('assets/kupasdata-icon.png')
-# set_bg('assets/bg.jpeg')
+set_bg('assets/kupasdata-bg.jpg')
 head()
 
 # Side bar

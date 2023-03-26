@@ -6,4 +6,4 @@ COPY . .
 RUN ["chmod", "+x", "./install.sh"]
 RUN ./install.sh
 
-ENTRYPOINT ["streamlit", "run", "app/main.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["streamlit", "run", "app/Home.py", "--server.port=8501", "--server.address=0.0.0.0"]

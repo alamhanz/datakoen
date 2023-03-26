@@ -1,1 +1,4 @@
 zippath: 'temp_data/'
+asset:
+  background: 'assets/kupasdata-bg.jpg'
+  icon: 'assets/kupasdata-icon.png'

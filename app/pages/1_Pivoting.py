@@ -8,6 +8,7 @@ with open("config.yaml", "r") as f:
 # zippath = st.session_state['config']['zippath']
 
 set_assets(st.session_state['config'])
-head()
 basicsidebar(st.session_state['config'])
 footer()
+
+st.title("Pivot")

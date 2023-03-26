@@ -24,3 +24,7 @@ def set_icon(icon_file='assets/icon.png'):
         page_title='KupasData',
         page_icon=icon_file
     )
+
+def set_assets(config):
+    set_icon(config['asset']['icon'])
+    set_bg(config['asset']['background'])

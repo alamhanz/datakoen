@@ -11,10 +11,8 @@ with open("config.yaml", "r") as f:
 set_assets(st.session_state['config'])
 df = upload_data()
 
-st.title("Pivot")
-st.markdown("pivoting your data for your exploration.")
-
-
+st.title("Hypothesis Testing")
+st.markdown("Tools to help you to hypothesis testing.")
 
 
 footer()

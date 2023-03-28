@@ -11,10 +11,8 @@ with open("config.yaml", "r") as f:
 set_assets(st.session_state['config'])
 df = upload_data()
 
-st.title("Pivot")
-st.markdown("pivoting your data for your exploration.")
-
-
+st.title("Regression")
+st.markdown("drag and drop regression")
 
 
 footer()

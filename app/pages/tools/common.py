@@ -1,11 +1,11 @@
 
 from zipfile import ZipFile
 import polars as pl
+import pandas as pd
 import os
 import shutil
 from io import BytesIO
-import pandas as pd
-
+import streamlit as st    
 
 @st.cache_data
 def readFiles(fn_root,path):
@@ -63,3 +63,14 @@ def to_excel(df):
     writer.save()
     processed_data = output.getvalue()
     return processed_data
+
+def upload_data():
+    with st.sidebar:
+        uploaded_file = st.file_uploader("upload your data", key='uploaded_file')
+        if uploaded_file:
+            fn_uploaded = st.session_state['dataset'].name
+            df_polars = readFiles(fn_uploaded,st.session_state['config']['zippath'])
+        else:
+            df_polars = None
+
+    return df_polars

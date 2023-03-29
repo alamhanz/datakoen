@@ -1,6 +1,34 @@
 # kupasdata-dev
 Kupasdata - Your all in one tools for data wrangling and insight.
 
+## Setup Environment
+
+Using `virtualenv` to setup the environment
+
+```
+pip install virtualenv
+virtualenv kupas
+source kupas/bin/activate
+pip install -r requirements.txt
+```
+
+or run this script for windows users
+
+```
+pip install virtualenv
+virtualenv kupas
+.\kupas\Scripts\activate
+pip install -r requirements.txt
+```
+
+
+## Run The App
+
+once the enviroment activated, run this syntax:
+```
+make kupas
+```
+
 
 ## Reference
 

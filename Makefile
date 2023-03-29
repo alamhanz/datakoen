@@ -1,4 +1,4 @@
-toktok:
+kupas:
 	streamlit run app/Home.py
 
 build-run:

@@ -41,16 +41,18 @@ def readFiles(fn_root,path):
         st.session_state['file_readable'] = True
         placeholder.empty()
 
+    
+    elif 'csv' in st.session_state['dataset'].type:
+        df = pl.read_csv(st.session_state['dataset'])
+        st.session_state['file_readable'] = True
+        placeholder.empty()
+
     else:
-        df = pl.DataFrame()
+        df = None
         placeholder.error('Unrecognizeable Format. Excel or Zip format.')
         st.session_state['file_readable'] = False
 
     return df
-
-@st.cache_data
-def polars_csv(path):
-    return pl.read_csv(path)
 
 def to_excel(df):
     output = BytesIO()
@@ -66,7 +68,7 @@ def to_excel(df):
 
 def upload_data():
     with st.sidebar:
-        uploaded_file = st.file_uploader("upload your data", key='uploaded_file')
+        uploaded_file = st.file_uploader("upload your data", key='dataset')
         if uploaded_file:
             fn_uploaded = st.session_state['dataset'].name
             df_polars = readFiles(fn_uploaded,st.session_state['config']['zippath'])

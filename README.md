@@ -48,3 +48,4 @@ make kupas
 * [sample-size4](https://stats.stackexchange.com/questions/392979/ab-test-sample-size-calculation-by-hand)
 * [sample-size5](https://henrykpano.medium.com/a-b-testing-calculating-your-sample-size-using-various-methods-4290fddb354d)
 * [sample-size6](https://towardsdatascience.com/required-sample-size-for-a-b-testing-6f6608dd330a)
+* [sample-size7](https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_power/bs704_power_print.html)

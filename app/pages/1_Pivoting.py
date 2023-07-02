@@ -5,6 +5,8 @@ from pages.tools.utils import basicsidebar, footer
 from pages.tools.assets import set_assets
 from pages.tools.common import upload_data
 
+from annotated_text import annotated_text
+
 ## asset prep and get data
 with open("config.yaml", "r") as f:
     st.session_state['config'] = yaml.load(f, Loader=yaml.FullLoader)
@@ -14,19 +16,21 @@ df = upload_data()
 ## opening
 st.title("Pivot")
 st.markdown("pivoting your data for your exploration.")
+st.markdown("\nUpload Your data first.")
 
 ## processing
 if df is not None:
+    annotated_text("Your data source: ", (st.session_state['dataset'].name, ""))
     all_dimensions = df.select([pl.col(pl.Boolean),pl.col(pl.Binary),pl.col(pl.Categorical),pl.col(pl.Utf8)]).columns
     all_measures = df.select([pl.col(pl.Decimal),pl.col(pl.Float32),pl.col(pl.Float64)
            ,pl.col(pl.Int8),pl.col(pl.Int16),pl.col(pl.Int32),pl.col(pl.Int64)]).columns
     all_fun = ['sum','first','max','min','mean','median','count']
     dshape = df.shape
 
+    row_opt = st.selectbox("row name :",all_dimensions,key='row_pivot')
+    col_opt = st.selectbox("column name :",all_dimensions,key='col_pivot')
     with st.sidebar:
         st.success('Your current data shape is {} x {}'.format(dshape[0],dshape[1]))
-        row_opt = st.selectbox("row name :",all_dimensions,key='row_pivot')
-        col_opt = st.selectbox("column name :",all_dimensions,key='col_pivot')
         val_opt = st.selectbox("measure name :",all_measures,key='mea_pivot')
         fun_opt = st.selectbox("function name :",all_fun,key='fun_pivot')
         show = st.checkbox('show the data raw')

@@ -10,3 +10,5 @@ polars==0.16.10
 xlsx2csv==0.8.1
 streamlit-echarts==0.4.0
 zipfile39==0.0.7.0
+statsmodels==0.14.0
+st-annotated-text==4.0.0

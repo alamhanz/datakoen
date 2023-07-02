@@ -76,3 +76,5 @@ def upload_data():
             df_polars = None
 
     return df_polars
+
+## add change type functionality

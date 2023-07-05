@@ -14,5 +14,9 @@ df = upload_data()
 st.title("Hypothesis Testing")
 st.markdown("Tools to help you to hypothesis testing.")
 
+testing_opt = st.selectbox("Choose Statistical Test :",['A','B','C','D'],key='testing_options')
+sample_size1 = st.number_input('Get the sample size group1: ')
+sample_size2 = st.number_input('Get the sample size group2: ')
+
 
 footer()

@@ -3,7 +3,8 @@ Kupasdata - Your all in one tools for data wrangling and insight.
 
 ## Setup Environment
 
-Using `virtualenv` to setup the environment
+Using `virtualenv` to setup the environment. 
+It is better use Python 3.8.8 to run the application.
 
 ```
 pip install virtualenv
@@ -28,7 +29,6 @@ once the enviroment activated, run this syntax:
 ```
 make kupas
 ```
-
 
 ## Reference
 

@@ -1,0 +1,1 @@
+flyctl launch --auto-confirm --copy-config --dockerfile Dockerfile --name kupasdata --now --org personal --region sin

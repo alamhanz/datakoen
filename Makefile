@@ -1,5 +1,5 @@
 kupas:
-	streamlit run app/Home.py
+	streamlit run app/home.py
 
 build-run:
 	docker build -t pealtest:v1 -f Dockerfile .

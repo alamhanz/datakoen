@@ -10,9 +10,8 @@ with open("config.yaml", "r", encoding="utf-8") as f:
 set_assets(st.session_state["config"])
 
 with open(st.session_state["config"]["asset"]["home-markdown"], "rb") as ctx:
-    read_md = ctx.read()
+    read_md = ctx.read().decode("UTF-8")
 
-read_md = read_md.read().decode("UTF-8")
 st.markdown(
     """
     <h1 style='text-align: center; margin-bottom: -35px;'>

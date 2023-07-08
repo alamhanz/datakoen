@@ -20,6 +20,15 @@ jobs:
         tox 
   build:
     runs-on: ubuntu-latest
+    needs: check
     steps:
     - uses: actions/checkout@v3
-    
+    - name: Build docker images
+      run: echo "Build docker image..." 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v3
+    - name: Deploy to fly.io
+      run: echo "Deploying to fly.io..."

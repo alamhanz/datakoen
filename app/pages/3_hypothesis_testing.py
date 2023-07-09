@@ -15,10 +15,22 @@ st.title("Hypothesis Testing")
 st.markdown("Tools to help you to hypothesis testing.")
 
 testing_opt = st.selectbox(
-    "Choose Statistical Test :", ["A", "B", "C", "D"], key="testing_options"
+    "Choose Statistical Test :", 
+    ["-",
+    "Proportion Differences t-test of 2 samples", 
+    "Mean Differences t-test of 2 samples"], key="testing_options"
 )
-sample_size1 = st.number_input("Get the sample size group1: ")
-sample_size2 = st.number_input("Get the sample size group2: ")
 
+if testing_opt == "-":
+    st.markdown("Please Choose The Hytpothesis testing Method")
+elif testing_opt == "Proportion Differences t-test of 2 samples":
+    sample_size1 = st.number_input("Get the sample size group1: ")
+    sample_size2 = st.number_input("Get the sample size group2: ")
+
+elif testing_opt == "Mean Differences t-test of 2 samples":
+    sample_size1 = st.number_input("Get the sample size group1: ")
+    sample_size2 = st.number_input("Get the sample size group2: ")
+else:
+    st.markdown("Please Choose The Hytpothesis testing Method")
 
 footer()

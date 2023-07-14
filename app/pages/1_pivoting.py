@@ -20,7 +20,8 @@ st.markdown("\nUpload Your data first.")
 
 ## processing
 if df is not None:
-    config_types(df)
+    # df = dataclean(df)
+    df = config_types(df)
 
     annotated_text("Your data source: ", (st.session_state["dataset"].name, ""))
     all_dimensions = df.select(
@@ -61,8 +62,6 @@ if df is not None:
     if show:
         st.caption("Sample of Raw Data Below")
         st.table(df.to_pandas().sample(10))
-
-    config_types(df)
 
 ## footer
 footer()

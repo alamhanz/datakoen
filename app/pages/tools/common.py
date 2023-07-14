@@ -5,7 +5,7 @@ import os
 import shutil
 from io import BytesIO
 import streamlit as st
-
+from collections import Counter
 
 @st.cache_data
 def readFiles(fn_root, path):
@@ -79,31 +79,58 @@ def upload_data():
     return df_polars
 
 
-## add change type functionality
 def config_types(df):
+    """
+    Do Data type changes capability.
+
+    Return df after data type changes.
+    """
     with st.expander('Data Edit'):
-        default_types = dict(zip(df.columns, df.dtypes))
-        base_types = list(set([pl.Decimal, pl.Float64, pl.Int64,
-                               pl.UInt64, pl.Date,
-                               pl.Datetime, pl.Boolean, pl.Binary,
-                               pl.Categorical, pl.Utf8]+df.dtypes))
-        col_types = {}
-
-        for col in default_types:
-            st.write(col)
-            col_types[col] = st.selectbox("types :", base_types,
-                                          index=base_types
-                                          .index(default_types[col]),
-                                          key=col+"types")
-
-            if default_types[col] != col_types[col]:
-                df = df.with_columns(pl.col('Sales_in_thousands')
-                                       .cast(col_types[col]))
-
         if df is not None:
-            st.write('Hello!')
+            default_types = dict(zip(df.columns, df.dtypes))
+            base_types = list(set([pl.Decimal, pl.Float64, pl.Int64,
+                                   pl.UInt64, pl.Date,
+                                   pl.Datetime, pl.Boolean, pl.Binary,
+                                   pl.Categorical, pl.Utf8]+df.dtypes))
+            col_types = {}
+
+            for colm in default_types:
+                st.write(colm)
+                col_types[colm] = st.selectbox("types :", base_types,
+                                               index=base_types
+                                               .index(default_types[colm]),
+                                               key=colm+"_types")
+
+                if default_types[colm] != col_types[colm]:
+                    df = df.with_columns(pl.col(colm)
+                                        .cast(col_types[colm]))
         else:
             st.write('Error Data Load')
+        
+        return df
+
+
+# def data_clean(df):
+#     """
+#     Return Cleaner df.
+
+#     task:
+#     1. Rename the Duplicate Column Name
+#     """
+#     all_cols = df.columns
+#     if len(all_cols) == len(set(all_cols)):
+#         df_update = df.copy()
+#     else:
+#         col_cnt = Counter(all_cols)
+#         high_col_cnt = dict((k, v) for k, v in col_cnt.items() if v > 1)
+#         print(high_col_cnt)
+#         for k in high_col_cnt:
+#             for i in range(high_col_cnt[k]):
+
+
+
+
+#     return df_update
 
 
 ## missing value handle

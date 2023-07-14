@@ -4,9 +4,9 @@ import yaml
 import sys
 from io import StringIO
 
-from pages.tools.utils import basicsidebar, footer
+from pages.tools.utils import footer
 from pages.tools.assets import set_assets
-from pages.tools.common import upload_data
+from pages.tools.common import upload_data, config_types
 from pages.tools.calc import RunRegression
 
 from annotated_text import annotated_text
@@ -24,6 +24,8 @@ st.markdown("drag and drop regression")
 
 ## processing
 if df is not None:
+    df = config_types(df)
+
     annotated_text("Your data source: ", (st.session_state["dataset"].name, ""))
     all_dimensions = df.select(
         [pl.col(pl.Boolean), pl.col(pl.Binary), pl.col(pl.Categorical), pl.col(pl.Utf8)]

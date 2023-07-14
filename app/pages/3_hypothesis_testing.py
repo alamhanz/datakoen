@@ -1,8 +1,7 @@
 import streamlit as st
 import yaml
-from pages.tools.utils import basicsidebar, footer
+from pages.tools.utils import footer
 from pages.tools.assets import set_assets
-from pages.tools.common import upload_data
 from pages.tools.calc import ztest_2prop
 
 with open("config.yaml", "r") as f:
@@ -10,7 +9,6 @@ with open("config.yaml", "r") as f:
 # zippath = st.session_state['config']['zippath']
 
 set_assets(st.session_state["config"])
-df = upload_data()
 
 st.title("Hypothesis Testing")
 st.markdown("Tools to help you to hypothesis testing.")

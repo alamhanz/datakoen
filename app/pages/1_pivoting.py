@@ -20,7 +20,6 @@ st.markdown("\nUpload Your data first.")
 
 ## processing
 if df is not None:
-    # df = dataclean(df)
     df = config_types(df)
 
     annotated_text("Your data source: ", (st.session_state["dataset"].name, ""))

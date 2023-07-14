@@ -80,9 +80,26 @@ def upload_data():
 
 
 ## add change type functionality
-
 def config_types(df):
     with st.expander('Data Edit'):
+        default_types = dict(zip(df.columns, df.dtypes))
+        base_types = list(set([pl.Decimal, pl.Float64, pl.Int64,
+                               pl.UInt64, pl.Date,
+                               pl.Datetime, pl.Boolean, pl.Binary,
+                               pl.Categorical, pl.Utf8]+df.dtypes))
+        col_types = {}
+
+        for col in default_types:
+            st.write(col)
+            col_types[col] = st.selectbox("types :", base_types,
+                                          index=base_types
+                                          .index(default_types[col]),
+                                          key=col+"types")
+
+            if default_types[col] != col_types[col]:
+                df = df.with_columns(pl.col('Sales_in_thousands')
+                                       .cast(col_types[col]))
+
         if df is not None:
             st.write('Hello!')
         else:

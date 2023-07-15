@@ -1,8 +1,9 @@
+"""Web page for hypothesis testing."""
 import streamlit as st
 import yaml
-from pages.tools.utils import basicsidebar, footer
 from pages.tools.assets import set_assets
 from pages.tools.common import upload_data
+from pages.tools.utils import footer
 
 with open("config.yaml", "r") as f:
     st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)

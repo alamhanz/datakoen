@@ -3,6 +3,9 @@
         "--rcfile=/home/andreas/kupasdata-dev/.pylintrc"
     ],
     "python.linting.pylintEnabled": true,
-    "python.linting.pycodestyleEnabled": true,
-    "python.linting.pydocstyleEnabled": true
+    "python.linting.pycodestyleEnabled": false,
+    "python.linting.pydocstyleEnabled": false,
+    "pylint.args": [
+        "--rcfile=${workspaceFolder}/.pylintrc"
+    ]
 }

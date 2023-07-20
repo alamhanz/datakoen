@@ -1,13 +1,16 @@
+"""Common function used in the web page."""
 import streamlit as st
 
 
 def basicsidebar():
+    """Set basic side bar."""
     st.sidebar.success("Select the tool above.")
     st.sidebar.subheader("Navigation")
     st.sidebar.text("This is some text in the sidebar")
 
 
 def footer():
+    """Set footer in for web page."""
     read_md = open("assets/markdowns/footer-sidebar.md", "rb")
     read_md = read_md.read().decode("UTF-8")
     st.sidebar.markdown(" ")

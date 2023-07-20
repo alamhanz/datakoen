@@ -1,3 +1,4 @@
+"""Web page for hypothesis testing."""
 import streamlit as st
 import yaml
 from pages.tools.utils import footer

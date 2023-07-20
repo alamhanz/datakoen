@@ -1,0 +1,15 @@
+name: Code Check
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  fly:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install fly.io
+        run : |
+          echo "Deploy to fly.io..."

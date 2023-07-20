@@ -1,14 +1,25 @@
-from zipfile import ZipFile
-import polars as pl
-import pandas as pd
+"""Common utilities."""
 import os
 import shutil
 from io import BytesIO
+from zipfile import ZipFile
+
+import pandas as pd
+import polars as pl
 import streamlit as st
 from collections import Counter
 
 @st.cache_data
 def readFiles(fn_root, path):
+    """Read user input file.
+
+    Args:
+        fn_root (_type_): _description_
+        path (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     print("new file is uploaded : ", fn_root)
     placeholder = st.empty()
     placeholder.info("reading files")
@@ -55,6 +66,14 @@ def readFiles(fn_root, path):
 
 
 def to_excel(df):
+    """Export from dataframe to excel.
+
+    Args:
+        df (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine="xlsxwriter")
     df.to_excel(writer, index=False, sheet_name="Sheet1")
@@ -68,6 +87,11 @@ def to_excel(df):
 
 
 def upload_data():
+    """Upload user data.
+
+    Returns:
+        _type_: _description_
+    """
     with st.sidebar:
         uploaded_file = st.file_uploader("upload your data", key="dataset")
         if uploaded_file:

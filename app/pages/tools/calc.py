@@ -1,12 +1,21 @@
+import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import seaborn as sns
+import statsmodels.api as sm
 import streamlit as st
 from scipy.stats import norm
-import statsmodels.api as sm
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+
 
 def RunRegression(df):
+    """Run regression given dataframe.
+
+    Args:
+        df (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     df = df.to_pandas()
     x = df[st.session_state["feature_reg"]].fillna(0)
     y = df[st.session_state["target_reg"]].fillna(0)
@@ -15,7 +24,6 @@ def RunRegression(df):
         x = sm.add_constant(x)
     model = sm.OLS(y, x).fit()
     return model
-
 
 ## Standardize
 

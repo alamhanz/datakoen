@@ -32,7 +32,7 @@ elif testing_opt == "Proportion Differences t-test of 2 samples":
         proportion_1 = st.number_input("Proportion group1:", value=0.5,
                                        max_value=1.0, min_value=1e-5,
                                        step=0.0001,format="%.5f")
-    
+
     with col2:
         sample_size2 = st.number_input("Get the sample size group2: ", value=7)
         proportion_2 = st.number_input("Proportion group2:", value=0.5,

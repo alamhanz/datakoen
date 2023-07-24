@@ -1,3 +1,7 @@
+"""Calculation Capability
+
+Contains all calculation 
+"""
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -52,19 +56,35 @@ def zscore_calc_proportion(N, proporsi, tailed):
 
 
 class ztest_2prop:
+    """Run ztest from 2 sets.
+
+    ztest class
+    """
     def __init__(self, N, proporsi, tailed):
+        """init
+
+        ztest class
+        """
         self.ukuran_sampel = N
         self.proporsi = proporsi
         # self.alpha = alp
         self.tailed = tailed
 
     def calc_zscore(self):
+        """zscore
+
+        zscore is calculated
+        """
         self.pval, self.zscore = zscore_calc_proportion(self.ukuran_sampel,
                                                         self.proporsi,
                                                         self.tailed)
         return self.pval, self.zscore
 
     def simulasi_sampel(self, sampel_simulasi):
+        """simulation
+
+        sample simulation
+        """
         mean_group1 = self.proporsi[0]
         stddev_group1 = np.sqrt((mean_group1*(1-mean_group1)) /
                                 self.ukuran_sampel[0])

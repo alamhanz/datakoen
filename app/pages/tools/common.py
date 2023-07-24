@@ -7,7 +7,6 @@ from zipfile import ZipFile
 import pandas as pd
 import polars as pl
 import streamlit as st
-from collections import Counter
 
 @st.cache_data
 def readFiles(fn_root, path):
@@ -96,7 +95,7 @@ def upload_data():
         uploaded_file = st.file_uploader("upload your data", key="dataset")
         if uploaded_file:
             fn_uploaded = st.session_state["dataset"].name
-            df_polars = readFiles(fn_uploaded, 
+            df_polars = readFiles(fn_uploaded,
                                 st.session_state["config"]["zippath"])
         else:
             df_polars = None
@@ -130,9 +129,8 @@ def config_types(df):
                                         .cast(col_types[colm]))
         else:
             st.write('Error Data Load')
-        
-        return df
 
+        return df
 
 # def data_clean(df):
 #     """
@@ -150,12 +148,4 @@ def config_types(df):
 #         print(high_col_cnt)
 #         for k in high_col_cnt:
 #             for i in range(high_col_cnt[k]):
-
-
-
-
-#     return df_update
-
-
 ## missing value handle
-

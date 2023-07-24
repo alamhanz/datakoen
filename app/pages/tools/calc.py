@@ -69,6 +69,9 @@ class ztest_2prop:
         self.proporsi = proporsi
         # self.alpha = alp
         self.tailed = tailed
+        self.pval = 1.0
+        self.zscore = 0.0
+        self.df_group = pd.DataFrame()
 
     def calc_zscore(self):
         """zscore

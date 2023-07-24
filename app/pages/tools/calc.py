@@ -29,7 +29,8 @@ def RunRegression(df):
     model = sm.OLS(y, x).fit()
     return model
 
-## Standardize
+# Standardize
+
 
 def zscore_calc_proportion(N, proporsi, tailed):
     """
@@ -60,6 +61,7 @@ class ztest_2prop:
 
     ztest class
     """
+
     def __init__(self, N, proporsi, tailed):
         """init
 

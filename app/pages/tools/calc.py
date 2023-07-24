@@ -29,6 +29,7 @@ def RunRegression(df):
     model = sm.OLS(y, x).fit()
     return model
 
+
 # Standardize
 
 
@@ -44,14 +45,14 @@ def zscore_calc_proportion(N, proporsi, tailed):
     p1 = proporsi[0]
     p2 = proporsi[1]
 
-    N_all = (1/N1)+(1/N2)
-    p_all = ((N1*p1)+(N2*p2))/(N1+N2)
+    N_all = (1 / N1) + (1 / N2)
+    p_all = ((N1 * p1) + (N2 * p2)) / (N1 + N2)
 
-    z_score = (p1-p2)/np.sqrt(p_all*(1-p_all)*(N_all))
+    z_score = (p1 - p2) / np.sqrt(p_all * (1 - p_all) * (N_all))
     if tailed == 2:
         p_value = norm.pdf(z_score)
     else:
-        p_value = norm.pdf(z_score)/2
+        p_value = norm.pdf(z_score) / 2
 
     return p_value, z_score
 
@@ -80,9 +81,9 @@ class ztest_2prop:
 
         zscore is calculated
         """
-        self.pval, self.zscore = zscore_calc_proportion(self.ukuran_sampel,
-                                                        self.proporsi,
-                                                        self.tailed)
+        self.pval, self.zscore = zscore_calc_proportion(
+            self.ukuran_sampel, self.proporsi, self.tailed
+        )
         return self.pval, self.zscore
 
     def simulasi_sampel(self, sampel_simulasi):
@@ -91,23 +92,27 @@ class ztest_2prop:
         sample simulation
         """
         mean_group1 = self.proporsi[0]
-        stddev_group1 = np.sqrt((mean_group1*(1-mean_group1)) /
-                                self.ukuran_sampel[0])
-        distribution_group1 = norm.rvs(size=sampel_simulasi,
-                                       loc=mean_group1, scale=stddev_group1)
+        stddev_group1 = np.sqrt(
+            (mean_group1 * (1 - mean_group1)) / self.ukuran_sampel[0]
+        )
+        distribution_group1 = norm.rvs(
+            size=sampel_simulasi, loc=mean_group1, scale=stddev_group1
+        )
 
         mean_group2 = self.proporsi[1]
-        stddev_group2 = np.sqrt((mean_group2*(1-mean_group2)) /
-                                self.ukuran_sampel[1])
-        distribution_group2 = norm.rvs(size=sampel_simulasi,
-                                       loc=mean_group2, scale=stddev_group2)
+        stddev_group2 = np.sqrt(
+            (mean_group2 * (1 - mean_group2)) / self.ukuran_sampel[1]
+        )
+        distribution_group2 = norm.rvs(
+            size=sampel_simulasi, loc=mean_group2, scale=stddev_group2
+        )
 
-        dg1 = pd.DataFrame({'data': distribution_group1})
-        dg1['groups'] = 'group1'
-        dg2 = pd.DataFrame({'data': distribution_group2})
-        dg2['groups'] = 'group2'
+        dg1 = pd.DataFrame({"data": distribution_group1})
+        dg1["groups"] = "group1"
+        dg2 = pd.DataFrame({"data": distribution_group2})
+        dg2["groups"] = "group2"
         self.df_group = pd.concat([dg1, dg2])
 
         # fig = plt.figure(figsize=(30, 25))
-        sns.displot(data=self.df_group, x='data', hue='groups', kind='kde')
+        sns.displot(data=self.df_group, x="data", hue="groups", kind="kde")
         st.pyplot(plt.gcf())

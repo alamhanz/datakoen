@@ -96,8 +96,7 @@ def upload_data():
         uploaded_file = st.file_uploader("upload your data", key="dataset")
         if uploaded_file:
             fn_uploaded = st.session_state["dataset"].name
-            df_polars = readFiles(fn_uploaded,
-                                  st.session_state["config"]["zippath"])
+            df_polars = readFiles(fn_uploaded, st.session_state["config"]["zippath"])
         else:
             df_polars = None
     return df_polars
@@ -109,29 +108,44 @@ def config_types(df):
 
     Return df after data type changes.
     """
-    with st.expander('Data Edit'):
+    with st.expander("Data Edit"):
         if df is not None:
             default_types = dict(zip(df.columns, df.dtypes))
-            base_types = list(set([pl.Decimal, pl.Float64, pl.Int64,
-                                   pl.UInt64, pl.Date,
-                                   pl.Datetime, pl.Boolean, pl.Binary,
-                                   pl.Categorical, pl.Utf8]+df.dtypes))
+            base_types = list(
+                set(
+                    [
+                        pl.Decimal,
+                        pl.Float64,
+                        pl.Int64,
+                        pl.UInt64,
+                        pl.Date,
+                        pl.Datetime,
+                        pl.Boolean,
+                        pl.Binary,
+                        pl.Categorical,
+                        pl.Utf8,
+                    ]
+                    + df.dtypes
+                )
+            )
             col_types = {}
 
             for colm in default_types:
                 st.write(colm)
-                col_types[colm] = st.selectbox("types :", base_types,
-                                               index=base_types
-                                               .index(default_types[colm]),
-                                               key=colm+"_types")
+                col_types[colm] = st.selectbox(
+                    "types :",
+                    base_types,
+                    index=base_types.index(default_types[colm]),
+                    key=colm + "_types",
+                )
 
                 if default_types[colm] != col_types[colm]:
-                    df = df.with_columns(pl.col(colm)
-                                         .cast(col_types[colm]))
+                    df = df.with_columns(pl.col(colm).cast(col_types[colm]))
         else:
-            st.write('Error Data Load')
+            st.write("Error Data Load")
 
         return df
+
 
 # def data_clean(df):
 #     """

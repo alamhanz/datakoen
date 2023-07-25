@@ -27,7 +27,6 @@ testing_opt = st.selectbox(
 if testing_opt == "-":
     st.markdown("Please Choose The Hytpothesis testing Method")
 elif testing_opt == "Proportion Differences t-test of 2 samples":
-
     col1, col2 = st.columns(2)
 
     with col1:

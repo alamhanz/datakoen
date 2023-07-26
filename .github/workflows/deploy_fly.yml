@@ -14,6 +14,5 @@ jobs:
         run : |
           echo "Deploy to fly.io..."
           curl -L https://fly.io/install.sh | sh 
-          export FLYCTL_INSTALL="/home/runner/.fly"
-          export PATH="$FLYCTL_INSTALL/bin:$PATH"
-          flyctl deploy --app kupasdata --access-token {{ secrets.FLY_TOKEN }}
+          pwd
+          /root/.fly/bin/flyctl deploy --app kupasdata --access-token {{ secrets.FLY_TOKEN }}

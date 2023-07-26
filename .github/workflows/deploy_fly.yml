@@ -14,4 +14,5 @@ jobs:
         run : |
           echo "Deploy to fly.io..."
           curl -L https://fly.io/install.sh | sh 
+          pwd
           /root/.fly/bin/flyctl deploy --app kupasdata --access-token {{ secrets.FLY_TOKEN }}

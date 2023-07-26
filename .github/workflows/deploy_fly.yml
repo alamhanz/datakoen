@@ -1,4 +1,4 @@
-name: Code Check
+name: deployment
 
 on:
   push:
@@ -15,4 +15,4 @@ jobs:
           echo "Deploy to fly.io..."
           curl -L https://fly.io/install.sh | sh 
           pwd
-          /root/.fly/bin/flyctl deploy --app kupasdata --access-token {{ secrets.FLY_TOKEN }}
+          flyctl deploy --app kupasdata --access-token {{ secrets.FLY_TOKEN }}

@@ -13,3 +13,6 @@ jobs:
       - name: Install fly.io
         run : |
           echo "Deploy to fly.io..."
+          curl -L https://fly.io/install.sh | sh 
+          flyctl auth token ${{ secrets.FLY_TOKEN }}
+          flyctl launch --auto-confirm --copy-config --dockerfile Dockerfile --name kupasdata --now --org personal --region sin

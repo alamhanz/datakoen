@@ -10,13 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Install fly.io
         env:
           FLY_TOKEN: ${{ secrets.FLY_TOKEN }}
-      - name: Install fly.io
         run : |
           echo "Deploy to fly.io..."
           curl -L https://fly.io/install.sh | sh 
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
           pwd
+          echo $FLY_TOKEN
           flyctl deploy --app kupasdata --access-token $FLY_TOKEN

@@ -14,5 +14,7 @@ jobs:
         run : |
           echo "Deploy to fly.io..."
           curl -L https://fly.io/install.sh | sh 
+          export FLYCTL_INSTALL="/home/runner/.fly"
+          export PATH="$FLYCTL_INSTALL/bin:$PATH"
           flyctl auth token ${{ secrets.FLY_TOKEN }}
           flyctl launch --auto-confirm --copy-config --dockerfile Dockerfile --name kupasdata --now --org personal --region sin

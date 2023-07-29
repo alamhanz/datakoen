@@ -147,6 +147,30 @@ def config_types(df):
         return df
 
 
+def split_col_types(df):
+    """
+    List down all columns based on types.
+
+    Return 2 list of column name.
+    """
+    all_dimensions = df.select(
+        [pl.col(pl.Boolean), pl.col(pl.Binary), pl.col(pl.Categorical), pl.col(pl.Utf8)]
+    ).columns
+    all_measures = df.select(
+        [
+            pl.col(pl.Decimal),
+            pl.col(pl.Float32),
+            pl.col(pl.Float64),
+            pl.col(pl.Int8),
+            pl.col(pl.Int16),
+            pl.col(pl.Int32),
+            pl.col(pl.Int64),
+        ]
+    ).columns
+
+    return all_dimensions, all_measures
+
+
 # def data_clean(df):
 #     """
 #     Return Cleaner df.

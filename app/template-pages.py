@@ -1,7 +1,4 @@
-"""Webpage for regression model."""
-import sys
-from io import StringIO
-
+"""Web page for timeseries."""
 import streamlit as st
 import yaml
 from annotated_text import annotated_text
@@ -9,18 +6,16 @@ from pages.tools.assets import set_assets
 from pages.tools.common import upload_data, config_types, split_col_types
 from pages.tools.utils import footer
 
-from pages.tools.calc import RunRegression
-
+# asset prep and get data
 with open("config.yaml", "r") as f:
     st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)
-# zippath = st.session_state['config']['zippath']
-
 set_assets(st.session_state["config"])
 df = upload_data()
 
-## opening
-st.title("Regression")
-st.markdown("drag and drop regression")
+# opening
+st.title("Title")
+st.markdown("This is a template")
+
 
 ## processing
 if df is not None:
@@ -32,23 +27,8 @@ if df is not None:
     with st.sidebar:
         show = st.checkbox("show the data raw")
         st.success(f"Your total observation is {dshape[0]}")
-        add_c = st.checkbox("with bias", value=True, key="add_constant")
 
-    target_opt = st.selectbox("target variable:", all_measures, key="target_reg")
-    all_feats = [i for i in all_measures if i != target_opt]
-    features_opt = st.multiselect("dependent variable:", all_feats, key="feature_reg")
-
-    # show = st.checkbox('standardize',key='is_standardized')
-    reg_model = RunRegression(df)
-
-    # st.caption(reg_model.summary())
-    old_stdout = sys.stdout
-    sys.stdout = mystdout = StringIO()
-
-    print(reg_model.summary())
-
-    sys.stdout = old_stdout
-    st.text(mystdout.getvalue())
+    ## TODO all processing here
 
     if show:
         st.caption("Sample of Raw Data Below")

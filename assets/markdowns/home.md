@@ -7,7 +7,7 @@
 **👈 Select data tools from the sidebar** to see some actions.
 
 ## Want to learn more?
-- Check out [streamlit.io](https://streamlit.io)
+- Check out this part [streamlit.io](https://streamlit.io)
 - Jump into our [documentation](https://docs.streamlit.io)
 - Ask a question in our [community
     forums](https://discuss.streamlit.io)

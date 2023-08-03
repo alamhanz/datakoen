@@ -9,6 +9,9 @@ import seaborn as sns
 import statsmodels.api as sm
 import streamlit as st
 from scipy.stats import norm
+import random
+
+# import uuid
 
 
 def RunRegression(df):
@@ -116,3 +119,57 @@ class ztest_2prop:
         # fig = plt.figure(figsize=(30, 25))
         sns.displot(data=self.df_group, x="data", hue="groups", kind="kde")
         st.pyplot(plt.gcf())
+
+
+## timeseries
+
+
+class timeseries_model:
+    """Run timeseries model.
+
+    ts class
+    """
+
+    def __init__(self, actual, config):
+        """init
+
+        initial all config
+        """
+        self.actual_ts = actual
+        self.init_config = config
+
+    def run(self):
+        """run timeseries model
+
+        start the prediction
+        """
+        return self.actual_ts + random.randint(9, 25)
+
+
+def add_ts():
+    max_id = str(len(st.session_state["ts_lines"].keys()))
+    st.session_state["ts_lines"]["predict_{}".format(max_id)] = []
+
+
+def ts_pred(actual_ts, config, name):
+    method_opt = ["arima", "not_arima"]
+
+    ts_container = st.empty()
+    ts_columns = ts_container.columns((3, 2))
+    ts_method = ts_columns[0].selectbox("Method:", method_opt, key=name)
+    with ts_columns[1].expander("model-config"):
+        st.write(f"depends on the {ts_method}")
+        ts_model = timeseries_model(actual_ts, config)
+
+    return ts_model.run()
+
+
+def run_all_ts(data_ts, config):
+    all_ts = []
+    for method_name in data_ts.keys():
+        if method_name != "actual":
+            pred_ts = ts_pred(data_ts["actual"], config, method_name)
+        else:
+            pred_ts = data_ts["actual"]
+        all_ts.append(pred_ts)
+    return all_ts

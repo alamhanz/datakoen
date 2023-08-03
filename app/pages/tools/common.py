@@ -9,6 +9,14 @@ import polars as pl
 import streamlit as st
 
 
+def make_grid(cols, rows):
+    grid = [0] * cols
+    for i in range(cols):
+        with st.container():
+            grid[i] = st.columns(rows)
+    return grid
+
+
 @st.cache_data
 def readFiles(fn_root, path):
     """Read user input file.

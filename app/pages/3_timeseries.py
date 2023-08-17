@@ -3,7 +3,13 @@ import streamlit as st
 import yaml
 from annotated_text import annotated_text
 from pages.tools.assets import set_assets
-from pages.tools.common import upload_data, config_types, split_col_types, make_grid
+from pages.tools.common import (
+    upload_data,
+    config_types,
+    split_col_types,
+    make_grid,
+    custom_legend_name,
+)
 from pages.tools.utils import footer
 from pages.tools.calc import add_ts, run_all_ts
 import plotly.express as px
@@ -69,7 +75,9 @@ if df is not None:
                 curr_y = run_all_ts(st.session_state["ts_lines"])
                 st.button("Add TS Model", on_click=add_ts)
 
+            all_model_name = st.session_state["ts_lines"].keys()
             fig = px.line(x=df_ts[col_time], y=curr_y)
+            fig = custom_legend_name(fig, all_model_name)
             with mylayout[1][0]:
                 st.plotly_chart(fig, theme="streamlit", use_container_width=False)
                 st.divider()

@@ -5,6 +5,7 @@ Contains all calculation
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import polars as pl
 import seaborn as sns
 import statsmodels.api as sm
 import streamlit as st
@@ -123,6 +124,11 @@ class ztest_2prop:
 
 
 ## timeseries
+def set_config(model_name):
+    if model_name == "arima":
+        xxx
+    else:
+        xxx
 
 
 class timeseries_model:
@@ -145,36 +151,56 @@ class timeseries_model:
 
         start the prediction
         """
+        ts_pred_data = []
         if self.init_config["method"] == "arima":
-            
-            train_part = self.actual_ts[self.n_test:]
-            test_part = self.actual_ts[:self.n_test]
+            train_part = self.actual_ts[self.n_test :].to_numpy()
+            # test_part = self.actual_ts[: self.n_test]
 
-            model_ = ARIMA(
-                self.actual_ts, order=(4, 1, 1), seasonal_order=(1, 1, 1, 52)
-            )
+            model_ = ARIMA(train_part, order=(2, 1, 1), seasonal_order=(1, 0, 0, 14))
+            model_fit_ = model_.fit()
 
-            train_part_pred = model_.get_prediction().predicted_mean
-            test_part_pred = 
+            train_part_pred = model_fit_.get_prediction().predicted_mean
+            test_part_pred = model_fit_.forecast(steps=self.n_test)
+
+            print(train_part_pred)
+            print(test_part_pred)
+
+            ts_pred_data_array = np.append(train_part_pred, test_part_pred, 0)
+            self.ts_pred_data = pl.Series(ts_pred_data_array)
 
         else:
-            ts_pred = self.actual_ts + random.randint(9, 25)
+            self.ts_pred_data = self.actual_ts + random.randint(9, 25)
 
-        return ts_pred
+        return self.ts_pred_data
+
+    def evaluate(self):
+        """time series evaluation
+
+        evaluating the time series
+        """
+        return 1
 
 
 def add_ts():
+    """adding ts
+
+    add time series model
+    """
     max_id = str(len(st.session_state["ts_lines"].keys()))
     st.session_state["ts_lines"]["predict_{}".format(max_id)] = []
 
 
 def ts_pred(actual_ts, name):
+    """one model time series run
+
+    running time series model
+    """
     method_opt = ["arima", "not_arima"]
 
     ts_container = st.empty()
     ts_columns = ts_container.columns((3, 2))
     ts_method = ts_columns[0].selectbox("Method:", method_opt, key=name)
-    with ts_columns[1].expander("model-config"):
+    with ts_columns[1].expander("{}-config".format(name)):
         st.write(f"depends on the {ts_method}")
         config = {}
         config["method"] = ts_method
@@ -185,6 +211,10 @@ def ts_pred(actual_ts, name):
 
 
 def run_all_ts(data_ts):
+    """all run
+
+    running all time series model
+    """
     all_ts = []
     for method_name in data_ts.keys():
         if method_name != "actual":

@@ -9,6 +9,12 @@ import polars as pl
 import streamlit as st
 
 
+def custom_legend_name(fig, new_names):
+    for i, new_name in enumerate(new_names):
+        fig.data[i].name = new_name
+    return fig
+
+
 def make_grid(cols, rows):
     grid = [0] * cols
     for i in range(cols):

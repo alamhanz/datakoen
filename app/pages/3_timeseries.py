@@ -63,11 +63,10 @@ if df is not None:
                 if "ts_lines" not in st.session_state:
                     st.session_state["ts_lines"] = {"actual": df_ts[col_value]}
 
-                ts_config = {"n_test": 25}
                 st.divider()
 
             with mylayout[2][0]:
-                curr_y = run_all_ts(st.session_state["ts_lines"], ts_config)
+                curr_y = run_all_ts(st.session_state["ts_lines"])
                 st.button("Add TS Model", on_click=add_ts)
 
             fig = px.line(x=df_ts[col_time], y=curr_y)

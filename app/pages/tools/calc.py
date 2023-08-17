@@ -10,6 +10,7 @@ import statsmodels.api as sm
 import streamlit as st
 from scipy.stats import norm
 import random
+from statsmodels.tsa.arima.model import ARIMA
 
 # import uuid
 
@@ -137,13 +138,29 @@ class timeseries_model:
         """
         self.actual_ts = actual
         self.init_config = config
+        self.n_test = self.init_config["n_test"]
 
     def run(self):
         """run timeseries model
 
         start the prediction
         """
-        return self.actual_ts + random.randint(9, 25)
+        if self.init_config["method"] == "arima":
+            
+            train_part = self.actual_ts[self.n_test:]
+            test_part = self.actual_ts[:self.n_test]
+
+            model_ = ARIMA(
+                self.actual_ts, order=(4, 1, 1), seasonal_order=(1, 1, 1, 52)
+            )
+
+            train_part_pred = model_.get_prediction().predicted_mean
+            test_part_pred = 
+
+        else:
+            ts_pred = self.actual_ts + random.randint(9, 25)
+
+        return ts_pred
 
 
 def add_ts():
@@ -151,7 +168,7 @@ def add_ts():
     st.session_state["ts_lines"]["predict_{}".format(max_id)] = []
 
 
-def ts_pred(actual_ts, config, name):
+def ts_pred(actual_ts, name):
     method_opt = ["arima", "not_arima"]
 
     ts_container = st.empty()
@@ -159,16 +176,19 @@ def ts_pred(actual_ts, config, name):
     ts_method = ts_columns[0].selectbox("Method:", method_opt, key=name)
     with ts_columns[1].expander("model-config"):
         st.write(f"depends on the {ts_method}")
+        config = {}
+        config["method"] = ts_method
+        config["n_test"] = 15
         ts_model = timeseries_model(actual_ts, config)
 
     return ts_model.run()
 
 
-def run_all_ts(data_ts, config):
+def run_all_ts(data_ts):
     all_ts = []
     for method_name in data_ts.keys():
         if method_name != "actual":
-            pred_ts = ts_pred(data_ts["actual"], config, method_name)
+            pred_ts = ts_pred(data_ts["actual"], method_name)
         else:
             pred_ts = data_ts["actual"]
         all_ts.append(pred_ts)

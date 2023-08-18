@@ -124,11 +124,50 @@ class ztest_2prop:
 
 
 ## timeseries
-def set_config(model_name):
-    if model_name == "arima":
-        xxx
+def set_ts_config(method_name, model_name):
+    config = {}
+    config["method"] = method_name
+    config["n_test"] = 25
+    if method_name == "arima":
+        p0 = st.number_input(
+            "p", value=1, min_value=0, max_value=60, step=1, key="p_" + model_name
+        )
+        d0 = st.number_input(
+            "d", min_value=0, max_value=2, step=1, key="d_" + model_name
+        )
+        q0 = st.number_input(
+            "q", min_value=0, max_value=60, step=1, key="q_" + model_name
+        )
+        config["order"] = (p0, d0, q0)
+
+        is_seasonal = st.checkbox("is seasonal", key="is_seasonal_" + model_name)
+
+        if is_seasonal:
+            periode = st.number_input(
+                "Periode",
+                value=7,
+                min_value=0,
+                max_value=100,
+                step=1,
+                key="periode_" + model_name,
+            )
+            p1 = st.number_input(
+                "P", value=1, min_value=0, max_value=60, step=1, key="P_" + model_name
+            )
+            d1 = st.number_input(
+                "D", min_value=0, max_value=2, step=1, key="D_" + model_name
+            )
+            q1 = st.number_input(
+                "Q", min_value=0, max_value=60, step=1, key="Q_" + model_name
+            )
+            config["order_seasonal"] = (p1, d1, q1, periode)
+
+        config["is_seasonal"] = is_seasonal
+
     else:
-        xxx
+        config["test"] = 1
+
+    return config
 
 
 class timeseries_model:
@@ -151,19 +190,22 @@ class timeseries_model:
 
         start the prediction
         """
-        ts_pred_data = []
         if self.init_config["method"] == "arima":
             train_part = self.actual_ts[self.n_test :].to_numpy()
             # test_part = self.actual_ts[: self.n_test]
 
-            model_ = ARIMA(train_part, order=(2, 1, 1), seasonal_order=(1, 0, 0, 14))
+            if self.init_config["is_seasonal"]:
+                model_ = ARIMA(
+                    train_part,
+                    order=self.init_config["order"],
+                    seasonal_order=self.init_config["order_seasonal"],
+                )
+            else:
+                model_ = ARIMA(train_part, order=self.init_config["order"])
             model_fit_ = model_.fit()
 
             train_part_pred = model_fit_.get_prediction().predicted_mean
             test_part_pred = model_fit_.forecast(steps=self.n_test)
-
-            print(train_part_pred)
-            print(test_part_pred)
 
             ts_pred_data_array = np.append(train_part_pred, test_part_pred, 0)
             self.ts_pred_data = pl.Series(ts_pred_data_array)
@@ -202,9 +244,10 @@ def ts_pred(actual_ts, name):
     ts_method = ts_columns[0].selectbox("Method:", method_opt, key=name)
     with ts_columns[1].expander("{}-config".format(name)):
         st.write(f"depends on the {ts_method}")
-        config = {}
-        config["method"] = ts_method
-        config["n_test"] = 15
+        config = set_ts_config(ts_method, name)
+        # config = {}
+        # config["method"] = ts_method
+        # config["n_test"] = 15
         ts_model = timeseries_model(actual_ts, config)
 
     return ts_model.run()

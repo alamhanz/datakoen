@@ -14,7 +14,7 @@ df = upload_data()
 
 st.title("Sample Size")
 st.markdown("Tools to help you to calculate Sample Size.")
-st.markdown("Differentiate 2 independent means")
+st.markdown("Under Development")
 
 
 footer()

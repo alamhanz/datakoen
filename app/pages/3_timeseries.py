@@ -29,8 +29,15 @@ st.markdown("\nCompare time series methods. Try Now.")
 ## processing
 if df is not None:
     placeholder = st.empty()
-    tab1, tab2 = st.tabs(["Workspace", "Data Types Edit"])
-    with tab2:
+    tab1, tab2, tab3, tab4 = st.tabs(
+        [
+            "Prediction Model",
+            "Model Evaluation",
+            "Time Series Analysis",
+            "Data Types Edit",
+        ]
+    )
+    with tab4:
         df = config_types(df)
 
     with st.sidebar:
@@ -47,6 +54,7 @@ if df is not None:
             placeholder.error("There is no 'Date/Time Type' or no 'Numeric Type'")
         else:
             placeholder.empty()
+            # Preprocessing
             with mylayout[0][0]:
                 annotated_text(
                     "Your data source: ", (st.session_state["dataset"].name, "")
@@ -65,9 +73,24 @@ if df is not None:
                     key="col_value_ts",
                 )
 
-                df_ts = df[[col_time, col_value]]
+                max_rnu = 1500
+                min_rnu = max(int(len(df) * 0.1), 10)
+                default_rnu = min(int(len(df) * 0.8), max_rnu)
+                row_number_used = st.number_input(
+                    "Number of Rows (get x last number of timeseries)",
+                    value=default_rnu,
+                    min_value=min_rnu,
+                    max_value=max_rnu,
+                    step=1,
+                    key="n_used",
+                )
+
+                df_ts = df[[col_time, col_value]].sort(col_time, descending=False)
+                df_ts = df_ts[-row_number_used:]
                 if "ts_lines" not in st.session_state:
                     st.session_state["ts_lines"] = {"actual": df_ts[col_value]}
+                else:
+                    st.session_state["ts_lines"]["actual"] = df_ts[col_value]
 
                 st.divider()
 
@@ -78,9 +101,21 @@ if df is not None:
             all_model_name = st.session_state["ts_lines"].keys()
             fig = px.line(x=df_ts[col_time], y=curr_y)
             fig = custom_legend_name(fig, all_model_name)
+            if "number_test" in st.session_state:
+                n_test = st.session_state["number_test"]
+                vline = max(df_ts[:-n_test][col_time])
+                fig.add_vline(
+                    x=vline, line_width=3, line_dash="dash", line_color="goldenrod"
+                )
             with mylayout[1][0]:
                 st.plotly_chart(fig, theme="streamlit", use_container_width=False)
                 st.divider()
+
+    with tab2:
+        st.markdown("Under Development")
+
+    with tab3:
+        st.markdown("Under Development")
 
     if show:
         st.caption("Sample of Raw Data Below")

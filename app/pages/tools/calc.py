@@ -6,12 +6,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import polars as pl
-import seaborn as sns
-import statsmodels.api as sm
 import streamlit as st
-from scipy.stats import norm
 import random
+
+import statsmodels.api as sm
+from scipy.stats import norm
 from statsmodels.tsa.arima.model import ARIMA
+
+import seaborn as sns
+import plotly.express as px
+import plotly.figure_factory as ff
 
 # import uuid
 
@@ -124,10 +128,10 @@ class ztest_2prop:
 
 
 ## timeseries
-def set_ts_config(method_name, model_name):
+def set_ts_config(method_name, model_name, n_test):
     config = {}
     config["method"] = method_name
-    config["n_test"] = 25
+    config["n_test"] = n_test
     if method_name == "arima":
         p0 = st.number_input(
             "p", value=1, min_value=0, max_value=60, step=1, key="p_" + model_name
@@ -147,7 +151,7 @@ def set_ts_config(method_name, model_name):
                 "Periode",
                 value=7,
                 min_value=0,
-                max_value=100,
+                max_value=365 * 2,
                 step=1,
                 key="periode_" + model_name,
             )
@@ -163,6 +167,19 @@ def set_ts_config(method_name, model_name):
             config["order_seasonal"] = (p1, d1, q1, periode)
 
         config["is_seasonal"] = is_seasonal
+
+    elif method_name == "rolling":
+        config["window_size"] = st.number_input(
+            "window_size",
+            value=2,
+            min_value=2,
+            max_value=100,
+            step=1,
+            key="win_size_" + model_name,
+        )
+        config["roll_method"] = st.selectbox(
+            "Method:", ["mean", "median"], key="roll_method_" + model_name
+        )
 
     else:
         config["test"] = 1
@@ -190,10 +207,10 @@ class timeseries_model:
 
         start the prediction
         """
-        if self.init_config["method"] == "arima":
-            train_part = self.actual_ts[self.n_test :].to_numpy()
-            # test_part = self.actual_ts[: self.n_test]
+        train_part = self.actual_ts[: -self.n_test].to_numpy()
+        # test_part = self.actual_ts[-self.n_test :].to_numpy()
 
+        if self.init_config["method"] == "arima":
             if self.init_config["is_seasonal"]:
                 model_ = ARIMA(
                     train_part,
@@ -210,8 +227,28 @@ class timeseries_model:
             ts_pred_data_array = np.append(train_part_pred, test_part_pred, 0)
             self.ts_pred_data = pl.Series(ts_pred_data_array)
 
+        elif self.init_config["method"] == "rolling":
+            # dt["Temp"].rolling_mean(window_size=10)
+            w_size = self.init_config["window_size"]
+            if self.init_config["roll_method"] == "mean":
+                self.ts_pred_data = self.actual_ts.rolling_mean(window_size=w_size)
+            elif self.init_config["roll_method"] == "median":
+                self.ts_pred_data = self.actual_ts.rolling_median(window_size=w_size)
+            else:
+                self.ts_pred_data = self.actual_ts.rolling_mean(window_size=w_size)
         else:
-            self.ts_pred_data = self.actual_ts + random.randint(9, 25)
+            # self.ts_pred_data = self.actual_ts + random.randint(9, 25)
+            m_train = train_part.mean()
+            v_train = train_part.std()
+            test_part_pred = np.array(
+                [
+                    m_train + random.uniform(-1 * v_train * 1.5, v_train * 1.5)
+                    for i in range(self.n_test)
+                ]
+            )
+
+            ts_pred_data_array = np.append(train_part, test_part_pred, 0)
+            self.ts_pred_data = pl.Series(ts_pred_data_array)
 
         return self.ts_pred_data
 
@@ -232,19 +269,19 @@ def add_ts():
     st.session_state["ts_lines"]["predict_{}".format(max_id)] = []
 
 
-def ts_pred(actual_ts, name):
+def ts_pred(actual_ts, name, n_test):
     """one model time series run
 
     running time series model
     """
-    method_opt = ["arima", "not_arima"]
+    method_opt = ["arima", "rolling", "random"]
 
     ts_container = st.empty()
     ts_columns = ts_container.columns((3, 2))
     ts_method = ts_columns[0].selectbox("Method:", method_opt, key=name)
     with ts_columns[1].expander("{}-config".format(name)):
         st.write(f"depends on the {ts_method}")
-        config = set_ts_config(ts_method, name)
+        config = set_ts_config(ts_method, name, n_test)
         # config = {}
         # config["method"] = ts_method
         # config["n_test"] = 15
@@ -259,9 +296,21 @@ def run_all_ts(data_ts):
     running all time series model
     """
     all_ts = []
+    if len(data_ts.keys()) > 1:
+        max_test = int(len(data_ts["actual"]) * 0.4)
+        default_test = int(len(data_ts["actual"]) * 0.2)
+        n_test = st.number_input(
+            "Number of Test",
+            value=default_test,
+            min_value=1,
+            max_value=max_test,
+            step=1,
+            key="number_test",
+        )
+
     for method_name in data_ts.keys():
         if method_name != "actual":
-            pred_ts = ts_pred(data_ts["actual"], method_name)
+            pred_ts = ts_pred(data_ts["actual"], method_name, n_test)
         else:
             pred_ts = data_ts["actual"]
         all_ts.append(pred_ts)

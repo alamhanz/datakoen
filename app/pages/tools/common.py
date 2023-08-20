@@ -10,12 +10,30 @@ import streamlit as st
 
 
 def custom_legend_name(fig, new_names):
+    """create custom legerd.
+
+    Args:
+        fig (figure): figure object
+        new_names (list): list of new names
+
+    Returns:
+        figure: figure with new legend names
+    """
     for i, new_name in enumerate(new_names):
         fig.data[i].name = new_name
     return fig
 
 
 def make_grid(cols, rows):
+    """make grid from streamlit
+
+    Args:
+        cols (int): number of columns
+        rows (int): number of rows
+
+    Returns:
+        grid : streamlit object
+    """
     grid = [0] * cols
     for i in range(cols):
         with st.container():

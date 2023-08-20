@@ -28,7 +28,7 @@ if df is not None:
         show = st.checkbox("show the data raw")
         st.success(f"Your total observation is {dshape[0]}")
 
-    ## TODO all processing here
+    ## all processing here
 
     if show:
         st.caption("Sample of Raw Data Below")

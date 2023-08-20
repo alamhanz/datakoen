@@ -2,20 +2,20 @@
 
 Contains all calculation 
 """
+import random
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import polars as pl
 import streamlit as st
-import random
+
 
 import statsmodels.api as sm
 from scipy.stats import norm
 from statsmodels.tsa.arima.model import ARIMA
 
+
 import seaborn as sns
-import plotly.express as px
-import plotly.figure_factory as ff
 
 # import uuid
 
@@ -129,6 +129,16 @@ class ztest_2prop:
 
 ## timeseries
 def set_ts_config(method_name, model_name, n_test):
+    """set config for a ts model
+
+    Args:
+        method_name (str): name of timeseries method
+        model_name (str): name of the model
+        n_test (int): number of test
+
+    Returns:
+        grid : streamlit object
+    """
     config = {}
     config["method"] = method_name
     config["n_test"] = n_test
@@ -201,6 +211,7 @@ class timeseries_model:
         self.actual_ts = actual
         self.init_config = config
         self.n_test = self.init_config["n_test"]
+        self.ts_pred_data = pl.Series([])
 
     def run(self):
         """run timeseries model

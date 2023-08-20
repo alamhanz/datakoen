@@ -46,7 +46,6 @@ if df is not None:
         st.success(f"Your total observation is {dshape[0]}")
 
     with tab1:
-        ## TODO all processing here
         mylayout = make_grid(3, 1)
         all_dimensions, all_measures = split_col_types(df)
 

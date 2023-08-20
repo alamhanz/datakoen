@@ -46,7 +46,7 @@ if df is not None:
         st.success(f"Your total observation is {dshape[0]}")
 
     with tab1:
-        mylayout = make_grid(3, 1)
+        mylayout0, mylayout1, mylayout2 = make_grid(3, 1)
         all_dimensions, all_measures = split_col_types(df)
 
         if (len(all_dimensions) == 0) | (len(all_measures) == 0):
@@ -54,7 +54,7 @@ if df is not None:
         else:
             placeholder.empty()
             # Preprocessing
-            with mylayout[0][0]:
+            with mylayout0[0]:
                 annotated_text(
                     "Your data source: ", (st.session_state["dataset"].name, "")
                 )
@@ -93,7 +93,7 @@ if df is not None:
 
                 st.divider()
 
-            with mylayout[2][0]:
+            with mylayout2[0]:
                 curr_y = run_all_ts(st.session_state["ts_lines"])
                 st.button("Add TS Model", on_click=add_ts)
 
@@ -106,7 +106,7 @@ if df is not None:
                 fig.add_vline(
                     x=vline, line_width=3, line_dash="dash", line_color="goldenrod"
                 )
-            with mylayout[1][0]:
+            with mylayout1[0]:
                 st.plotly_chart(fig, theme="streamlit", use_container_width=False)
                 st.divider()
 

@@ -8,6 +8,8 @@ import pandas as pd
 import polars as pl
 import streamlit as st
 
+from typing import Tuple, Type
+
 
 def custom_legend_name(fig, new_names):
     """create custom legerd.
@@ -24,7 +26,8 @@ def custom_legend_name(fig, new_names):
     return fig
 
 
-def make_grid(cols, rows):
+# def findMaxAverage(self, nums: List[int], k: int) -> float:
+def make_grid(cols: int, rows: int) -> Tuple[Type[st.columns]]:
     """make grid from streamlit
 
     Args:
@@ -38,7 +41,7 @@ def make_grid(cols, rows):
     for i in range(cols):
         with st.container():
             grid[i] = st.columns(rows)
-    return grid
+    return tuple(grid)
 
 
 @st.cache_data

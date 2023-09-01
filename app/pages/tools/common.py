@@ -39,6 +39,7 @@ def make_grid(cols: int, rows: int) -> Tuple[Type[st.columns]]:
     """
     grid = []
     for i in range(cols):
+        print(i)
         with st.container():
             grid.append(st.columns(rows))
     return tuple(grid)

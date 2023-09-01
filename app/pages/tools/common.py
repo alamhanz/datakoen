@@ -37,10 +37,10 @@ def make_grid(cols: int, rows: int) -> Tuple[Type[st.columns]]:
     Returns:
         grid : streamlit object
     """
-    grid = [0] * cols
+    grid = []
     for i in range(cols):
         with st.container():
-            grid[i] = st.columns(rows)
+            grid.append(st.columns(rows))
     return tuple(grid)
 
 

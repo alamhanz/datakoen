@@ -4,11 +4,11 @@ import shutil
 from io import BytesIO
 from zipfile import ZipFile
 
+from typing import Tuple, Type
+
 import pandas as pd
 import polars as pl
 import streamlit as st
-
-from typing import Tuple, Type
 
 
 def custom_legend_name(fig, new_names):

@@ -7,7 +7,6 @@ from pages.tools.common import (
     upload_data,
     config_types,
     split_col_types,
-    make_grid,
     custom_legend_name,
 )
 from pages.tools.utils import footer

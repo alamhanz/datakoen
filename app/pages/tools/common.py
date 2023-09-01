@@ -4,9 +4,45 @@ import shutil
 from io import BytesIO
 from zipfile import ZipFile
 
+from typing import Tuple, Type
+
 import pandas as pd
 import polars as pl
 import streamlit as st
+
+
+def custom_legend_name(fig, new_names):
+    """create custom legerd.
+
+    Args:
+        fig (figure): figure object
+        new_names (list): list of new names
+
+    Returns:
+        figure: figure with new legend names
+    """
+    for i, new_name in enumerate(new_names):
+        fig.data[i].name = new_name
+    return fig
+
+
+# def findMaxAverage(self, nums: List[int], k: int) -> float:
+def make_grid(cols: int, rows: int) -> Tuple[Type[st.columns]]:
+    """make grid from streamlit
+
+    Args:
+        cols (int): number of columns
+        rows (int): number of rows
+
+    Returns:
+        grid : streamlit object
+    """
+    grid = []
+    for i in range(cols):
+        print(i)
+        with st.container():
+            grid.append(st.columns(rows))
+    return tuple(grid)
 
 
 @st.cache_data
@@ -108,43 +144,87 @@ def config_types(df):
 
     Return df after data type changes.
     """
-    with st.expander("Data Edit"):
-        if df is not None:
-            default_types = dict(zip(df.columns, df.dtypes))
-            base_types = list(
-                set(
-                    [
-                        pl.Decimal,
-                        pl.Float64,
-                        pl.Int64,
-                        pl.UInt64,
-                        pl.Date,
-                        pl.Datetime,
-                        pl.Boolean,
-                        pl.Binary,
-                        pl.Categorical,
-                        pl.Utf8,
-                    ]
-                    + df.dtypes
-                )
+    # with st.expander("Data Edit"):
+    if df is not None:
+        default_types = dict(zip(df.columns, df.dtypes))
+        base_types = list(
+            set(
+                [
+                    pl.Decimal,
+                    pl.Float64,
+                    pl.Int64,
+                    pl.UInt64,
+                    pl.Date,
+                    pl.Datetime,
+                    pl.Boolean,
+                    pl.Binary,
+                    pl.Categorical,
+                    pl.Utf8,
+                ]
+                + df.dtypes
             )
-            col_types = {}
+        )
+        col_types = {}
 
-            for colm in default_types:
-                st.write(colm)
-                col_types[colm] = st.selectbox(
-                    "types :",
-                    base_types,
-                    index=base_types.index(default_types[colm]),
-                    key=colm + "_types",
-                )
+        for colm in default_types:
+            st.write(colm)
+            col_types[colm] = st.selectbox(
+                "types :",
+                base_types,
+                index=base_types.index(default_types[colm]),
+                key=colm + "_types",
+            )
 
-                if default_types[colm] != col_types[colm]:
+            if default_types[colm] != col_types[colm]:
+                if col_types[colm] in [pl.Date, pl.Datetime]:
+                    format_date = st.text_input(
+                        "format datetime [default : %Y-%m-%d]", "%Y-%m-%d"
+                    )
+                    df = df.with_columns(
+                        pl.col(colm)
+                        .str.strptime(pl.Date, fmt=format_date)
+                        .cast(pl.Datetime)
+                    )
+                else:
                     df = df.with_columns(pl.col(colm).cast(col_types[colm]))
-        else:
-            st.write("Error Data Load")
+            st.divider()
 
-        return df
+    else:
+        st.write("Error Data Load")
+
+    return df
+
+
+def split_col_types(df):
+    """
+    List down all columns based on types.
+
+    Return 2 list of column name.
+    """
+    all_dimensions = df.select(
+        [
+            pl.col(pl.Boolean),
+            pl.col(pl.Binary),
+            pl.col(pl.Categorical),
+            pl.col(pl.Utf8),
+            pl.col(pl.Date),
+            pl.col(pl.Datetime),
+            pl.col(pl.Time),
+        ]
+    ).columns
+    all_measures = df.select(
+        [
+            pl.col(pl.Decimal),
+            pl.col(pl.Float32),
+            pl.col(pl.Float64),
+            pl.col(pl.Int8),
+            pl.col(pl.Int16),
+            pl.col(pl.Int32),
+            pl.col(pl.Int64),
+        ]
+    ).columns
+
+    return all_dimensions, all_measures
 
 
 # def data_clean(df):

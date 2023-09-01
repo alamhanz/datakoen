@@ -59,14 +59,14 @@ elif testing_opt == "Proportion Differences t-test of 2 samples":
     p_value, z_score = calcZ.calc_zscore()
 
     if p_value <= alp:
-        output = "H1 signifikan secara statistik"
+        output = "Difference is statistically significant"
     else:
-        output = "H1 tidak cukup signifikan"
+        output = "It is NOT statistically significant different"
     output = output + " : dengan pvalue {} dan z_score {}".format(
         round(p_value, 3), round(z_score, 3)
     )
     st.markdown(output)
-    calcZ.simulasi_sampel(5000)
+    calcZ.simulasi_sampel(250)
 
 
 elif testing_opt == "Mean Differences t-test of 2 samples":

@@ -1,6 +1,7 @@
 """Web page for hypothesis testing."""
 import streamlit as st
 import yaml
+from annotated_text import annotated_text
 from pages.tools.utils import footer
 from pages.tools.assets import set_assets
 from pages.tools.calc import ztest_2prop
@@ -70,8 +71,10 @@ elif testing_opt == "Proportion Differences t-test of 2 samples":
 
 
 elif testing_opt == "Mean Differences t-test of 2 samples":
+    annotated_text("Status: ", ("Under development", ""))
     sample_size1 = st.number_input("Get the sample size group1: ")
     sample_size2 = st.number_input("Get the sample size group2: ")
+
 else:
     st.markdown("Please Choose The Hytpothesis testing Method")
 

@@ -1,12 +1,11 @@
 """Common utilities."""
+
 import os
 import shutil
 from io import BytesIO
+from typing import Tuple, Type
 from zipfile import ZipFile
 
-from typing import Tuple, Type
-
-import pandas as pd
 import polars as pl
 import streamlit as st
 
@@ -225,6 +224,17 @@ def split_col_types(df):
     ).columns
 
     return all_dimensions, all_measures
+
+
+def default_data(to_pandas=False):
+    df = pl.read_csv(
+        "https://kanaries-app.s3.ap-northeast-1.amazonaws.com/public-datasets/bike_sharing_dc.csv"
+    )
+
+    if to_pandas:
+        df = df.to_pandas()
+
+    return df
 
 
 # def data_clean(df):

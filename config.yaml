@@ -1,5 +1,10 @@
-zippath: 'temp_data/'
+path:
+  temp: 'temp_data/'
+  md: 'assets/markdowns/'
+
 asset:
-  background: 'assets/kupasdata-bg.jpg'
-  icon: 'assets/kupasdata-icon.png'
-  home-markdown: 'assets/markdowns/home.md'
+  background: 'assets/datakoen-bg.jpg'
+  icon: 'assets/datakoen-icon.png'
+
+theme:
+  sidebar_color: "#ff000050"

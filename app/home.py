@@ -1,36 +1,16 @@
-"""Homepage for kupasdata."""
+"""Homepage for Datakoen."""
+
 import streamlit as st
-import yaml
-from pages.tools.utils import basicsidebar, footer
-from pages.tools.assets import set_assets
+from pages.tools.assets import koen_footer, koen_header, set_homepage
 
-with open("config.yaml", "r", encoding="utf-8") as f:
-    st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)
+koen_header()
 
-set_assets(st.session_state["config"])
+# Content Start Here
 
-with open(st.session_state["config"]["asset"]["home-markdown"], "rb") as ctx:
-    read_md = ctx.read().decode("UTF-8")
+with open(st.session_state["config"]["path"]["md"] + "home.md", "rb") as ctx:
+    homepage_details = ctx.read().decode("UTF-8")
+set_homepage(homepage_details)
 
-st.markdown(
-    """
-    <h1 style='text-align: center; margin-bottom: -35px;'>
-    Welcome to KupasData
-    </h1>
-""",
-    unsafe_allow_html=True,
-)
+# Content End Here
 
-st.caption(
-    """
-    <p style='text-align: center'>
-    by <a href='https://alamhanz.xyz'>Hanz</a>
-    </p>
-""",
-    unsafe_allow_html=True,
-)
-
-st.markdown(read_md)
-
-basicsidebar()
-footer()
+koen_footer()

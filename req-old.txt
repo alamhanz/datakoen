@@ -1,0 +1,14 @@
+joblib==0.17.0
+matplotlib>=3.2
+numpy==1.19.4
+plotly==5.15.0
+polars==0.16.10
+seaborn==0.12.2
+st-annotated-text==4.0.0
+statsmodels==0.14.0
+streamlit-echarts==0.4.0
+tox==4.6.3
+virtualenv==20.23.1
+xlsx2csv==0.8.1
+xlsxwriter==3.0.2
+zipfile39==0.0.7.0

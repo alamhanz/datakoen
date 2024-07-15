@@ -1,5 +1,6 @@
 """Common utilities."""
 
+import base64
 import os
 import shutil
 from io import BytesIO
@@ -8,6 +9,20 @@ from zipfile import ZipFile
 
 import polars as pl
 import streamlit as st
+
+
+def get_base64(bin_file):
+    """Read byte file and decode.
+
+    Args:
+        bin_file (_type_): _description_
+
+    Returns:
+        _type_: decoded content.
+    """
+    with open(bin_file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
 
 
 def custom_legend_name(fig, new_names):

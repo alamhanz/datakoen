@@ -1,7 +1,8 @@
 """Homepage for Datakoen."""
 
 import streamlit as st
-from pages.tools.assets import koen_footer, koen_header, set_homepage
+from pages.tools.assets import koen_footer, koen_header
+from pages.tools.content import set_homepage
 
 koen_header()
 

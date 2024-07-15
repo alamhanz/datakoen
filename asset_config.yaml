@@ -1,0 +1,7 @@
+path:
+  temp: 'temp_data/'
+  md: 'assets/markdowns/'
+
+asset:
+  background: 'assets/images/datakoen-bg.jpg'
+  icon: 'assets/images/datakoen-icon.png'

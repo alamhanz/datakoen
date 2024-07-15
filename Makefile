@@ -1,4 +1,4 @@
-kupas:
+koen:
 	streamlit run app/home.py
 
 build-run:

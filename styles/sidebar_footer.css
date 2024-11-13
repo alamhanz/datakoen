@@ -1,0 +1,16 @@
+.container {
+    text-align: left;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    height:15%;
+    max-height:500px;
+    width:inherit;
+    min-width:inherit;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.container div {
+    text-align: left;
+    vertical-align: middle;
+}

@@ -1,18 +1,11 @@
-🎊 Welcome. This all in one data tools will help you to data wrangling and getting insight. Just start by choose your tools and add your data file to this app. 
+🎊 Welcome. Hello All. This is my personal playgound to showcase my latest project. Just try and play with it. 
 
-📈 You can upload csv, xlsx or zip if you have multiple data with same columns name. 
+📈 I'm not a decent Software Engineer, just a Data Scientist who loves try a new things. So dont expect too much on the UI and the responsiveness. 
 
-🗄️ The data wont be stored anywhere. Once you've done with the tools, the data will be erased forever.
+🗄️ If you use the tools here, the data wont be stored. Once you've done with the tools, the data will be erased forever.
 
-**👈 Select data tools from the sidebar** to see some actions.
+**👈 Select the project or tools from the sidebar** to see some actions.
 
 ## Want to learn more?
-- Check out this part [streamlit.io](https://streamlit.io)
-- Jump into our [documentation](https://docs.streamlit.io)
-- Ask a question in our [community
-    forums](https://discuss.streamlit.io)
-
-## See more complex demos
-- Use a neural net to [analyze the Udacity Self-driving Car Image
-    Dataset](https://github.com/streamlit/demo-self-driving)
-- Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
+- The project here is being developed in my repo here
+- You can talk with me directly to discuss more or ask hanzo below to know more about me.

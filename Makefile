@@ -1,4 +1,7 @@
-kupas:
+env:
+	pip install -r requirements.txt
+
+koen:
 	streamlit run app/home.py
 
 build-run:

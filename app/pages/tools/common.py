@@ -1,10 +1,10 @@
 """Common utilities."""
+
 import os
 import shutil
 from io import BytesIO
-from zipfile import ZipFile
-
 from typing import Tuple, Type
+from zipfile import ZipFile
 
 import pandas as pd
 import polars as pl

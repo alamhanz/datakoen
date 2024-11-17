@@ -299,7 +299,7 @@ def ts_pred(actual_ts, name, n_test):
     return ts_model.run()
 
 
-def run_all_ts(data_ts, n_test):
+def run_all_ts(data_ts, n_test=4):
     """all run
 
     running all time series model

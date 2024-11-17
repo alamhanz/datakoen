@@ -10,3 +10,6 @@ build-run:
 
 build-to-gcp:
 	gcloud builds submit --tag asia-southeast2-docker.pkg.dev/kupasdata-dev/kupasdata/kupasdata:v0.5 --timeout=2h
+
+fly:
+	powershell -Command "iwr https://fly.io/install.ps1 -useb | iex"

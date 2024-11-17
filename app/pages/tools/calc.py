@@ -2,20 +2,18 @@
 
 Contains all calculation 
 """
+
 import random
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import polars as pl
-import streamlit as st
-
-
+import seaborn as sns
 import statsmodels.api as sm
+import streamlit as st
 from scipy.stats import norm
 from statsmodels.tsa.arima.model import ARIMA
-
-
-import seaborn as sns
 
 # import uuid
 
@@ -301,7 +299,7 @@ def ts_pred(actual_ts, name, n_test):
     return ts_model.run()
 
 
-def run_all_ts(data_ts):
+def run_all_ts(data_ts, n_test):
     """all run
 
     running all time series model

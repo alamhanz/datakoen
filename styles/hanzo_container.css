@@ -1,8 +1,5 @@
 .container {
     align-items: center;
-    position: fixed;
-    width:inherit;
-    min-width:inherit;
     box-sizing: border-box;
     padding-top: 40px;
 }

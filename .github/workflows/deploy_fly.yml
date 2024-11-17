@@ -20,4 +20,4 @@ jobs:
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
           pwd
           echo $FLY_TOKEN
-          flyctl deploy --app kupasdata --access-token $FLY_TOKEN
+          flyctl deploy --app datakoen --access-token $FLY_TOKEN

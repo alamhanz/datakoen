@@ -1,18 +1,23 @@
-# fly.toml app configuration file generated for kupasdata on 2023-07-06T22:55:19+07:00
+# fly.toml app configuration file generated for datakoen-morning-mountain-783 on 2024-11-17T18:57:33+09:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "kupasdata"
-primary_region = "sin"
+app = 'datakoen-morning-mountain-783'
+primary_region = 'sin'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
 [http_service]
   internal_port = 8501
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
-  processes = ["app"]
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1

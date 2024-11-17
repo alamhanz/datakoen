@@ -1,9 +1,11 @@
-FROM python:3.8-slim-buster
+FROM python:3.10.15-slim-bullseye
 EXPOSE 8501
 WORKDIR /app
 
 COPY . .
-RUN ["chmod", "+x", "./install.sh"]
-RUN ./install.sh
+RUN apt-get update && apt-get install -y bash
+RUN chmod +x ./install.sh
+RUN ls -l ./install.sh
+RUN bash ./install.sh
 
 ENTRYPOINT ["streamlit", "run", "app/home.py", "--server.port=8501", "--server.address=0.0.0.0"]

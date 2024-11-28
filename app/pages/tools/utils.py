@@ -25,3 +25,10 @@ def footer():
     read_md = open("assets/markdowns/footer.md", "rb")
     read_md = read_md.read().decode("UTF-8")
     st.markdown(read_md, unsafe_allow_html=True)
+
+
+def koencounter(state_name):
+    if state_name in st.session_state:
+        st.session_state[state_name] += 1
+    else:
+        st.session_state[state_name] = 1

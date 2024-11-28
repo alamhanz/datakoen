@@ -1,9 +1,11 @@
 """Homepage for Datakoen."""
 
+from functools import partial
+
 import streamlit as st
 import yaml
 from pages.tools.assets import set_assets
-from pages.tools.utils import footer
+from pages.tools.utils import footer, koencounter
 from streamlit_extras.stylable_container import stylable_container
 
 with open("config.yaml", "r", encoding="utf-8") as f:
@@ -36,41 +38,30 @@ st.caption(
 
 st.markdown(read_md)
 
-# hanzo_container_css = [
-#     """ {align-items: center;
-#                        position: fixed;
-#                        box-sizing: border-box;
-#                        padding-top: 40px;}""",
-#     """div {
-#     text-align: center;
-#     vertical-align: middle;}""",
-# ]
-
+koen_part_func = partial(koencounter, "home__submitted-form")
 with stylable_container(key="hanzo_container", css_styles=hanzo_container_css):
     #     st.caption("[Hanzo is left the office right now.]")
-    k = 0
-    with st.form("Hanzo Space"):
+    with st.form(key="home__hanzospace", clear_on_submit=True):
         text = st.text_area(
             "Hanzo Space",
             "what do you want to ask?",
         )
-        submitted = st.form_submit_button("Submit")
+        submitted = st.form_submit_button("Submit", on_click=koen_part_func)
+
         if submitted:
-            k += 1
-            if k == 1:
+            if st.session_state["home__submitted-form"] == 1:
                 st.info("I'm still learning. Give me another week to answer that.")
-            elif k == 2:
+            elif st.session_state["home__submitted-form"] == 2:
                 st.info(
                     "I'm sorry, I think i'm not clear enough. I still need sometime to learn. Please wait for another week."
                 )
-            elif k == 3:
+            elif st.session_state["home__submitted-form"] == 3:
                 st.info("Did you read my previous answer? Geez..")
-            elif k == 4:
+            elif st.session_state["home__submitted-form"] == 4:
                 st.info(
                     "Sorry for the attitude. I didn't mean to be rude. But really, I need sometime to learn."
                 )
             else:
                 st.info("Okay. I'll ignore you now.")
-
 
 footer()

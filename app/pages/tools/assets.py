@@ -46,7 +46,7 @@ def set_icon(icon_file="assets/icon.png"):
     Args:
         icon_file (str, optional): _description_. Defaults to "assets/icon.png".
     """
-    st.set_page_config(page_title="KupasData", page_icon=icon_file)
+    st.set_page_config(page_title="Datakoen", page_icon=icon_file)
 
 
 def set_assets(config):

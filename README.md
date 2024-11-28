@@ -1,5 +1,6 @@
-# kupasdata-dev
-Kupasdata - Your all in one tools for data wrangling and insight.
+# Datakoen
+"Your all in one tools for data wrangling and insight". --> This is what I hope can be done. But, for now, I use this as my way to showcase my project.
+I open this to everyone who eager to learn or doing non-profit project.
 
 ## Setup Environment
 
@@ -8,8 +9,8 @@ It is better use Python 3.8.8 to run the application.
 
 ```
 pip install virtualenv
-virtualenv kupas
-source kupas/bin/activate
+virtualenv koen
+source koen/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -17,8 +18,8 @@ or run this script for windows users
 
 ```
 pip install virtualenv
-virtualenv kupas
-.\kupas\Scripts\activate
+virtualenv koen
+.\koen\Scripts\activate
 pip install -r requirements.txt
 ```
 
@@ -27,10 +28,10 @@ pip install -r requirements.txt
 
 once the enviroment activated, run this syntax:
 ```
-make kupas
+make koen
 ```
 
-## Reference
+## References
 
 * [structure](https://levelup.gitconnected.com/8-simple-steps-to-build-your-first-streamlit-app-91fe7b3bef9e)
 * [push to gcp](https://cloud.google.com/build/docs/build-push-docker-image)

@@ -47,6 +47,30 @@ st.markdown(read_md)
 # ]
 
 with stylable_container(key="hanzo_container", css_styles=hanzo_container_css):
-    st.caption("[Hanzo is left the office right now.]")
+    #     st.caption("[Hanzo is left the office right now.]")
+    k = 0
+    with st.form("Hanzo Space"):
+        text = st.text_area(
+            "Hanzo Space",
+            "what do you want to ask?",
+        )
+        submitted = st.form_submit_button("Submit")
+        if submitted:
+            k += 1
+            if k == 1:
+                st.info("I'm still learning. Give me another week to answer that.")
+            elif k == 2:
+                st.info(
+                    "I'm sorry, I think i'm not clear enough. I still need sometime to learn. Please wait for another week."
+                )
+            elif k == 3:
+                st.info("Did you read my previous answer? Geez..")
+            elif k == 4:
+                st.info(
+                    "Sorry for the attitude. I didn't mean to be rude. But really, I need sometime to learn."
+                )
+            else:
+                st.info("Okay. I'll ignore you now.")
+
 
 footer()

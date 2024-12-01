@@ -4,9 +4,13 @@ from functools import partial
 
 import streamlit as st
 import yaml
+from dotenv import load_dotenv
+from hanzo import talk, vectordb
 from pages.tools.assets import set_assets
 from pages.tools.utils import footer, koencounter
 from streamlit_extras.stylable_container import stylable_container
+
+load_dotenv()
 
 with open("config.yaml", "r", encoding="utf-8") as f:
     st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)
@@ -38,7 +42,25 @@ st.caption(
 
 st.markdown(read_md)
 
+
+## Hanzo part
 koen_part_func = partial(koencounter, "home__submitted-form")
+
+## Hanzo Prep
+if "home__vdb" not in st.session_state:
+    st.session_state["home__vdb"] = vectordb(
+        model="BAAI/bge-large-en-v1.5",
+        file="temp/Alamsyah_Koto_Hanza_Profile.txt",
+        db_path="temp/about_alam/",
+    )
+    st.session_state["home__vdb"].load()
+
+if "home__hanzo" not in st.session_state:
+    st.session_state["home__hanzo"] = talk(
+        st.session_state["home__vdb"].db,
+        model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+    )
+
 with stylable_container(key="hanzo_container", css_styles=hanzo_container_css):
     #     st.caption("[Hanzo is left the office right now.]")
     with st.form(key="home__hanzospace", clear_on_submit=True):
@@ -49,19 +71,8 @@ with stylable_container(key="hanzo_container", css_styles=hanzo_container_css):
         submitted = st.form_submit_button("Submit", on_click=koen_part_func)
 
         if submitted:
-            if st.session_state["home__submitted-form"] == 1:
-                st.info("I'm still learning. Give me another week to answer that.")
-            elif st.session_state["home__submitted-form"] == 2:
-                st.info(
-                    "I'm sorry, I think i'm not clear enough. I still need sometime to learn. Please wait for another week."
-                )
-            elif st.session_state["home__submitted-form"] == 3:
-                st.info("Did you read my previous answer? Geez..")
-            elif st.session_state["home__submitted-form"] == 4:
-                st.info(
-                    "Sorry for the attitude. I didn't mean to be rude. But really, I need sometime to learn."
-                )
-            else:
-                st.info("Okay. I'll ignore you now.")
+            hanzo_response = st.session_state["home__hanzo"].invoking(text)
+            if isinstance(hanzo_response, dict):
+                st.info(hanzo_response["answer"])
 
 footer()

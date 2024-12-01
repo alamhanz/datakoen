@@ -5,4 +5,4 @@ streamlit-extras==0.4.3
 extra-streamlit-components==0.1.71
 streamlit-keyup==0.2.4
 tox==4.23.2
-hanzo @ git+https://github.com/alamhanz/hanzo.git#0.2.0
+hanzo @ git+https://github.com/alamhanz/hanzo.git#0.2.3

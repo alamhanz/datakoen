@@ -1,6 +1,7 @@
 """Common function used in the web page."""
 
 import streamlit as st
+from hanzo import talk, vectordb
 from streamlit_extras.stylable_container import stylable_container
 
 with open("styles/sidebar_footer.css") as ctx:
@@ -32,3 +33,22 @@ def koencounter(state_name):
         st.session_state[state_name] += 1
     else:
         st.session_state[state_name] = 1
+
+
+def koenprep(part):
+
+    if part == "home":
+        ## Hanzo Prep
+        if "home__vdb" not in st.session_state:
+            st.session_state["home__vdb"] = vectordb(
+                model="BAAI/bge-large-en-v1.5",
+                file="temp/Alamsyah_Koto_Hanza_Profile.txt",
+                db_path="temp/about_alam/",
+            )
+            st.session_state["home__vdb"].load()
+
+        if "home__hanzo" not in st.session_state:
+            st.session_state["home__hanzo"] = talk(
+                st.session_state["home__vdb"].db,
+                model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+            )

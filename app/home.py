@@ -5,12 +5,12 @@ from functools import partial
 import streamlit as st
 import yaml
 from dotenv import load_dotenv
-from hanzo import talk, vectordb
 from pages.tools.assets import set_assets
-from pages.tools.utils import footer, koencounter
+from pages.tools.utils import footer, koencounter, koenprep
 from streamlit_extras.stylable_container import stylable_container
 
 load_dotenv()
+koenprep("home")
 
 with open("config.yaml", "r", encoding="utf-8") as f:
     st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)
@@ -42,25 +42,8 @@ st.caption(
 
 st.markdown(read_md)
 
-
 ## Hanzo part
 koen_part_func = partial(koencounter, "home__submitted-form")
-
-## Hanzo Prep
-if "home__vdb" not in st.session_state:
-    st.session_state["home__vdb"] = vectordb(
-        model="BAAI/bge-large-en-v1.5",
-        file="temp/Alamsyah_Koto_Hanza_Profile.txt",
-        db_path="temp/about_alam/",
-    )
-    st.session_state["home__vdb"].load()
-
-if "home__hanzo" not in st.session_state:
-    st.session_state["home__hanzo"] = talk(
-        st.session_state["home__vdb"].db,
-        model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-    )
-
 with stylable_container(key="hanzo_container", css_styles=hanzo_container_css):
     #     st.caption("[Hanzo is left the office right now.]")
     with st.form(key="home__hanzospace", clear_on_submit=True):

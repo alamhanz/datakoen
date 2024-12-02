@@ -54,6 +54,7 @@ with stylable_container(key="hanzo_container", css_styles=hanzo_container_css):
         submitted = st.form_submit_button("Submit", on_click=koen_part_func)
 
         if submitted:
+            print(text)
             hanzo_response = st.session_state["home__hanzo"].invoking(text)
             if isinstance(hanzo_response, dict):
                 st.info(hanzo_response["answer"])

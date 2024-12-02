@@ -42,8 +42,8 @@ def koenprep(part):
         if "home__vdb" not in st.session_state:
             st.session_state["home__vdb"] = vectordb(
                 model="BAAI/bge-large-en-v1.5",
-                file="temp/Alamsyah_Koto_Hanza_Profile.txt",
-                db_path="temp/about_alam/",
+                file="app/default/my_profile.txt",
+                db_path="app/default/about_me/",
             )
             st.session_state["home__vdb"].load()
 
@@ -51,4 +51,6 @@ def koenprep(part):
             st.session_state["home__hanzo"] = talk(
                 st.session_state["home__vdb"].db,
                 model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+                max_token=800,
+                context_size=5,
             )

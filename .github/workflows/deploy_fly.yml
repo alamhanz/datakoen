@@ -8,7 +8,7 @@ on:
       - '*'
 
 jobs:
-  get-default-vdb:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: 'actions/checkout@v3'
@@ -18,32 +18,21 @@ jobs:
         with:
           credentials_json: '${{ secrets.GCP_CRED}}'
 
-      - name: Create Writable Directory
-        run: mkdir -p $GITHUB_WORKSPACE/app/default
-      
-      - name: "testing auth"
-        run: |
-          echo "testing"
-          gcloud storage cp gs://datakoen/test.txt $GITHUB_WORKSPACE/app/default/test-gcp.txt
-          ls
-          ls -l app/
-          
-
-
-  fly:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
       - name: Install fly.io
         env:
           FLY_TOKEN: ${{ secrets.FLY_TOKEN }}
         run : |
-          echo "Deploy to fly.io..."
-          ls
-          ls -l app/
           curl -L https://fly.io/install.sh | sh 
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
-          pwd
-          echo $FLY_TOKEN
-          flyctl deploy --app datakoen --access-token $FLY_TOKEN
+
+      - name: Create Writable Directory
+        run: mkdir -p $GITHUB_WORKSPACE/app/default
+      
+      - name: Copy VDB to Directory
+        run: |
+          gcloud storage cp gs://datakoen/test.txt $GITHUB_WORKSPACE/app/default/test-gcp.txt
+          ls -l app/
+
+      - name: Create Writable Directory
+        run: flyctl deploy --app datakoen --access-token $FLY_TOKEN

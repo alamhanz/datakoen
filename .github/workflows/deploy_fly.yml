@@ -17,11 +17,14 @@ jobs:
         uses: 'google-github-actions/auth@v1'
         with:
           credentials_json: '${{ secrets.GCP_CRED}}'
+
+      - name: Create Writable Directory
+        run: mkdir -p $GITHUB_WORKSPACE/default
       
       - name: "testing auth"
         run: |
           echo "testing"
-          gcloud storage cp gs://datakoen/test.txt /app/default/test-gcp.txt
+          gcloud storage cp gs://datakoen/test.txt $GITHUB_WORKSPACE/default/test-gcp.txt
           
 
 
@@ -35,6 +38,7 @@ jobs:
         run : |
           echo "Deploy to fly.io..."
           ls
+          ls -l app/
           curl -L https://fly.io/install.sh | sh 
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"

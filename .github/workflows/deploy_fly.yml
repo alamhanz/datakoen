@@ -2,6 +2,8 @@ name: Fly Deployment
 
 on:
   push:
+    branches:
+      - '**'
     tags:
       - '*'
 

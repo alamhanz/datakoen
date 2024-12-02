@@ -21,7 +21,8 @@ jobs:
       - name: "testing auth"
         run: |
           echo "testing"
-          gcloud auth list --filter=status:ACTIVE --format="value(account)"
+          gcloud storage cp gs://datakoen/test.txt /app/default/test-gcp.txt
+          
 
 
   fly:
@@ -33,6 +34,7 @@ jobs:
           FLY_TOKEN: ${{ secrets.FLY_TOKEN }}
         run : |
           echo "Deploy to fly.io..."
+          ls
           curl -L https://fly.io/install.sh | sh 
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"

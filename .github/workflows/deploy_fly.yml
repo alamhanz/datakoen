@@ -30,6 +30,7 @@ jobs:
         run: |
           mkdir -p $GITHUB_WORKSPACE/app/default
           mkdir -p $GITHUB_WORKSPACE/app/default/about_me
+          ls -l app/default/
       
       - name: Copy VDB to Directory
         run: |

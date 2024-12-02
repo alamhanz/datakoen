@@ -18,24 +18,21 @@ jobs:
         with:
           credentials_json: '${{ secrets.GCP_CRED}}'
 
-      - name: Install fly.io
-        env:
-          FLY_TOKEN: ${{ secrets.FLY_TOKEN }}
-        run : |
-          curl -L https://fly.io/install.sh | sh 
-          export FLYCTL_INSTALL="/home/runner/.fly"
-          export PATH="$FLYCTL_INSTALL/bin:$PATH"
-
       - name: Create Writable Directory
         run: |
           mkdir -p $GITHUB_WORKSPACE/app/default
-          mkdir -p $GITHUB_WORKSPACE/app/default/about_me
       
       - name: Copy VDB to Directory
         run: |
           gcloud storage cp gs://datakoen/test.txt $GITHUB_WORKSPACE/app/default/my_profile.txt
-          gcloud storage cp -r gs://datakoen/about_me $GITHUB_WORKSPACE/app/default/about_me/
+          gcloud storage cp -r gs://datakoen/about_me $GITHUB_WORKSPACE/app/default/
           ls -l app/default/about_me/
 
-      - name: Run fly
-        run: flyctl deploy --app datakoen --access-token $FLY_TOKEN
+      - name: Install and run fly.io
+        env:
+          FLY_TOKEN: ${{ secrets.FLY_TOKEN }}
+        run: |
+          curl -L https://fly.io/install.sh | sh 
+          export FLYCTL_INSTALL="/home/runner/.fly"
+          export PATH="$FLYCTL_INSTALL/bin:$PATH"
+          flyctl deploy --app datakoen --access-token $FLY_TOKEN

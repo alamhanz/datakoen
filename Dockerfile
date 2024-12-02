@@ -8,4 +8,6 @@ RUN chmod +x ./install.sh
 RUN ls -l ./install.sh
 RUN bash ./install.sh
 
+ENV TOGETHER_API_KEY=${TOGETHER_API_KEY}
+
 ENTRYPOINT ["streamlit", "run", "app/home.py", "--server.port=8501", "--server.address=0.0.0.0"]

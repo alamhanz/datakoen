@@ -35,5 +35,5 @@ jobs:
           curl -L https://fly.io/install.sh | sh 
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
-          flyctl secrets set TOGETHER_API_KEY='${{ secrets.TOGETHER_KEY}}'
+          flyctl secrets set TOGETHER_API_KEY='${{ secrets.TOGETHER_KEY}}' --access-token $FLY_TOKEN
           flyctl deploy --app datakoen --access-token $FLY_TOKEN

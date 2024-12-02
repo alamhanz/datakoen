@@ -27,12 +27,14 @@ jobs:
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
 
       - name: Create Writable Directory
-        run: mkdir -p $GITHUB_WORKSPACE/app/default
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/app/default
+          mkdir -p $GITHUB_WORKSPACE/app/about_me
       
       - name: Copy VDB to Directory
         run: |
           gcloud storage cp gs://datakoen/test.txt $GITHUB_WORKSPACE/app/default/my_profile.txt
-          gcloud storage cp -r gs://datakoen/about_me $GITHUB_WORKSPACE/app/default/about_me
+          gcloud storage cp -r gs://datakoen/about_me $GITHUB_WORKSPACE/app/default/about_me/
           ls -l app/
 
       - name: Create Writable Directory

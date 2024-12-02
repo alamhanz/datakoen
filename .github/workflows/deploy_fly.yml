@@ -30,13 +30,12 @@ jobs:
         run: |
           mkdir -p $GITHUB_WORKSPACE/app/default
           mkdir -p $GITHUB_WORKSPACE/app/default/about_me
-          ls -l app/default/
       
       - name: Copy VDB to Directory
         run: |
           gcloud storage cp gs://datakoen/test.txt $GITHUB_WORKSPACE/app/default/my_profile.txt
           gcloud storage cp -r gs://datakoen/about_me $GITHUB_WORKSPACE/app/default/about_me/
-          ls -l app/
+          ls -l app/default/about_me/
 
-      - name: Create Writable Directory
+      - name: Run fly
         run: flyctl deploy --app datakoen --access-token $FLY_TOKEN

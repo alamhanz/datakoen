@@ -1,4 +1,4 @@
-FROM python:3.10.15-slim-bullseye
+FROM python:3.11.10-slim-bullseye
 EXPOSE 8501
 WORKDIR /app
 

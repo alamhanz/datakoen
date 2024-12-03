@@ -33,6 +33,11 @@ def footer():
 
 
 def koencounter(state_name):
+    """create counter
+
+    Args:
+        state_name (_type_): _description_
+    """
     if state_name in st.session_state:
         st.session_state[state_name] += 1
     else:
@@ -40,7 +45,11 @@ def koencounter(state_name):
 
 
 def koenprep(part):
+    """initial state if needed
 
+    Args:
+        part (_type_): _description_
+    """
     if part == "home":
         ## Hanzo Prep
         if "home__vdb" not in st.session_state:
@@ -63,14 +72,12 @@ def koenprep(part):
 loggers = {}
 
 
-def koen_logger(module_name: str, suffix: str = ""):
+def koen_logger(module_name: str):
     """Logger Obejct
 
     Args:
         name (string): Name of the module
     """
-    global loggers
-
     if loggers.get(module_name):
 
         return loggers.get(module_name)

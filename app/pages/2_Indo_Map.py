@@ -1,13 +1,15 @@
 """Web page for chat page."""
 
 import logging
-from functools import partial
 
 import streamlit as st
 import yaml
 from pages.tools.assets import set_assets
-from pages.tools.utils import footer, koen_logger, koencounter, koenprep
-from streamlit_extras.stylable_container import stylable_container
+from pages.tools.utils import footer, koen_logger, koenprep
+
+# from functools import partial
+
+# from streamlit_extras.stylable_container import stylable_container
 
 koen_logger("indomap")
 logger = logging.getLogger("indomap")

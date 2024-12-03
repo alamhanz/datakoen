@@ -1,15 +1,18 @@
 """Homepage for Datakoen."""
 
+import logging
 from functools import partial
 
 import streamlit as st
 import yaml
 from dotenv import load_dotenv
 from pages.tools.assets import set_assets
-from pages.tools.utils import footer, koencounter, koenprep
+from pages.tools.utils import footer, koen_logger, koencounter, koenprep
 from streamlit_extras.stylable_container import stylable_container
 
 load_dotenv()
+koen_logger("home")
+logger = logging.getLogger("home")
 koenprep("home")
 
 with open("config.yaml", "r", encoding="utf-8") as f:
@@ -54,8 +57,9 @@ with stylable_container(key="hanzo_container", css_styles=hanzo_container_css):
         submitted = st.form_submit_button("Submit", on_click=koen_part_func)
 
         if submitted:
-            print(text)
+            logger.info("question: %s", text)
             hanzo_response = st.session_state["home__hanzo"].invoking(text)
+            logger.info("invoking done")
             if isinstance(hanzo_response, dict):
                 st.info(hanzo_response["answer"])
 

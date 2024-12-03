@@ -1,9 +1,17 @@
-"""Web page for table pivot."""
+"""Web page for chat page."""
+
+import logging
+from functools import partial
 
 import streamlit as st
 import yaml
 from pages.tools.assets import set_assets
-from pages.tools.utils import footer
+from pages.tools.utils import footer, koen_logger, koencounter, koenprep
+from streamlit_extras.stylable_container import stylable_container
+
+koen_logger("askhanzo")
+logger = logging.getLogger("askhanzo")
+koenprep("1")
 
 # asset prep and get data
 with open("config.yaml", "r") as f:
@@ -11,9 +19,12 @@ with open("config.yaml", "r") as f:
 set_assets(st.session_state["config"])
 
 # opening
-st.title("Pivot")
-st.markdown("pivoting your data for your exploration.")
-st.markdown("\nUpload Your data first.")
+st.title("Chat me about Data and AI")
+
+prompt = st.chat_input("Say something")
+if prompt:
+    st.write(f"I know your input: {prompt}")
+    st.write(f"But sorry, I still need time to learn.")
 
 # footer
 footer()

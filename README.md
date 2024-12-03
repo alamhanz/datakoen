@@ -43,4 +43,5 @@ make koen
 * [bg-source](https://www.freepik.com/free-vector/white-abstract-wallpaper_12151163.htm#query=simple%20background&position=45&from_view=keyword&track=ais)
 * [plotly](https://towardsdatascience.com/visualizing-polars-dataframes-using-plotly-express-8da4357d2ee0)
 * [Sample Size](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7745163/)
+* [Chat GUI](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)
 * [to domain](https://www.youtube.com/watch?v=mYGrWO1xCFs&ab_channel=tokuyuu)

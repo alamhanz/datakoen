@@ -6,18 +6,32 @@ on:
       - '*'
 
 jobs:
-  fly:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install fly.io
+      - uses: 'actions/checkout@v3'
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_CRED}}'
+
+      - name: Create Writable Directory
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/app/default
+      
+      - name: Copy VDB to Directory
+        run: |
+          gcloud storage cp gs://datakoen/test.txt $GITHUB_WORKSPACE/app/default/my_profile.txt
+          gcloud storage cp -r gs://datakoen/about_me $GITHUB_WORKSPACE/app/default/
+          ls -l app/default/about_me/
+
+      - name: Install and run fly.io
         env:
           FLY_TOKEN: ${{ secrets.FLY_TOKEN }}
-        run : |
-          echo "Deploy to fly.io..."
+        run: |
           curl -L https://fly.io/install.sh | sh 
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
-          pwd
-          echo $FLY_TOKEN
-          flyctl deploy --app kupasdata --access-token $FLY_TOKEN
+          flyctl secrets set TOGETHER_API_KEY='${{ secrets.TOGETHER_KEY}}' --access-token $FLY_TOKEN
+          flyctl deploy --access-token $FLY_TOKEN

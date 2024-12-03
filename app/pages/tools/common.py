@@ -1,10 +1,10 @@
 """Common utilities."""
+
 import os
 import shutil
 from io import BytesIO
-from zipfile import ZipFile
-
 from typing import Tuple, Type
+from zipfile import ZipFile
 
 import pandas as pd
 import polars as pl
@@ -225,22 +225,3 @@ def split_col_types(df):
     ).columns
 
     return all_dimensions, all_measures
-
-
-# def data_clean(df):
-#     """
-#     Return Cleaner df.
-
-#     task:
-#     1. Rename the Duplicate Column Name
-#     """
-#     all_cols = df.columns
-#     if len(all_cols) == len(set(all_cols)):
-#         df_update = df.copy()
-#     else:
-#         col_cnt = Counter(all_cols)
-#         high_col_cnt = dict((k, v) for k, v in col_cnt.items() if v > 1)
-#         print(high_col_cnt)
-#         for k in high_col_cnt:
-#             for i in range(high_col_cnt[k]):
-# missing value handle

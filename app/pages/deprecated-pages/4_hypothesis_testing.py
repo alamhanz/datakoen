@@ -1,10 +1,11 @@
 """Web page for hypothesis testing."""
+
 import streamlit as st
 import yaml
 from annotated_text import annotated_text
-from pages.tools.utils import footer
 from pages.tools.assets import set_assets
 from pages.tools.calc import ztest_2prop
+from pages.tools.utils import footer
 
 with open("config.yaml", "r") as f:
     st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)

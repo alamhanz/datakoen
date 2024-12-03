@@ -1,1 +1,1 @@
-flyctl launch --auto-confirm --copy-config --dockerfile Dockerfile --name kupasdata --now --org personal --region sin
+flyctl launch --auto-confirm --copy-config --dockerfile Dockerfile --name datakoen --now --org personal --region sin

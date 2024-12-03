@@ -1,17 +1,18 @@
 """Web page for timeseries."""
+
+import plotly.express as px
 import streamlit as st
 import yaml
 from annotated_text import annotated_text
 from pages.tools.assets import set_assets
+from pages.tools.calc import add_ts, run_all_ts
 from pages.tools.common import (
-    upload_data,
     config_types,
-    split_col_types,
     custom_legend_name,
+    split_col_types,
+    upload_data,
 )
 from pages.tools.utils import footer
-from pages.tools.calc import add_ts, run_all_ts
-import plotly.express as px
 
 # asset prep and get data
 with open("config.yaml", "r") as f:

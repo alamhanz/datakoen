@@ -1,4 +1,5 @@
 """Webpage for regression model."""
+
 import sys
 from io import StringIO
 
@@ -6,10 +7,9 @@ import streamlit as st
 import yaml
 from annotated_text import annotated_text
 from pages.tools.assets import set_assets
-from pages.tools.common import upload_data, config_types, split_col_types
-from pages.tools.utils import footer
-
 from pages.tools.calc import RunRegression
+from pages.tools.common import config_types, split_col_types, upload_data
+from pages.tools.utils import footer
 
 with open("config.yaml", "r") as f:
     st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)

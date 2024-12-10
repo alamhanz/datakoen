@@ -25,8 +25,11 @@ st.title("Chat me about Data and AI")
 
 prompt = st.chat_input("Say something")
 if prompt:
-    st.write(f"I know your input: {prompt}")
-    st.write("But sorry, I still need time to learn.")
+    # st.write(f"I know your input: {prompt}")
+    # st.write("But sorry, I still need time to learn.")
+
+    answer = st.session_state["1__hanzo"].streaming(input_query=prompt, stream=False)
+    st.write(answer)
 
 # footer
 footer()

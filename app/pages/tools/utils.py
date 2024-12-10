@@ -67,6 +67,12 @@ def koenprep(part):
                 max_token=800,
                 context_size=5,
             )
+    elif part == "1":
+        if "1__hanzo" not in st.session_state:
+            st.session_state["1__hanzo"] = talk(
+                model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+                max_token=800,
+            )
 
 
 loggers = {}

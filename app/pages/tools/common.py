@@ -7,10 +7,53 @@ from typing import Tuple, Type
 from zipfile import ZipFile
 
 import pandas as pd
-import polars as pl
 import streamlit as st
 
 
+def upload_data(_logger, text="upload your data", key="dataset"):
+    """Upload user data.
+
+    Returns:
+        _type_: _description_
+    """
+    uploaded_file = st.file_uploader(text, key=key, type=["csv"])
+    if uploaded_file:
+        _logger.info("uploading the data")
+        # Read the first 10 rows to check the structure
+        partial_data = pd.read_csv(uploaded_file, nrows=10)
+        num_columns = len(partial_data.columns)
+
+        # Check if the column count exceeds 5
+        if num_columns > 7:
+            raise ValueError(
+                f"The file has {num_columns} columns, but the maximum allowed is 7."
+            )
+
+        # Reset file pointer to re-read the full file
+        uploaded_file.seek(0)
+
+        # Check the row count
+        # total_rows = sum(1 for _ in open(uploaded_file.name)) - 1  # Minus header row
+        chunk_size = 1000
+        total_rows = 0
+        for chunk in pd.read_csv(uploaded_file, chunksize=chunk_size):
+            total_rows += len(chunk)
+            if total_rows > 5000:
+                raise ValueError(
+                    f"The file has more than 5000 rows (current count: {total_rows})."
+                )
+
+        # Reset file pointer again to load the data after validation
+        uploaded_file.seek(0)
+        df_data = pd.read_csv(uploaded_file)
+
+        # Display data
+        st.success("File uploaded successfully!")
+
+        return df_data
+
+
+## Unused
 def custom_legend_name(fig, new_names):
     """create custom legerd.
 
@@ -120,22 +163,6 @@ def to_excel(df):
     writer.save()
     processed_data = output.getvalue()
     return processed_data
-
-
-def upload_data():
-    """Upload user data.
-
-    Returns:
-        _type_: _description_
-    """
-    with st.sidebar:
-        uploaded_file = st.file_uploader("upload your data", key="dataset")
-        if uploaded_file:
-            fn_uploaded = st.session_state["dataset"].name
-            df_polars = readFiles(fn_uploaded, st.session_state["config"]["zippath"])
-        else:
-            df_polars = None
-    return df_polars
 
 
 def config_types(df):

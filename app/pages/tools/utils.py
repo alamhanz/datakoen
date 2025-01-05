@@ -67,6 +67,10 @@ def koenprep(part):
                 max_token=800,
                 context_size=5,
             )
+    elif part == "indomap":
+        ## IndoMap Prep
+        if "indomap__dataset" not in st.session_state:
+            st.session_state["indomap__dataset"] = None
 
 
 loggers = {}

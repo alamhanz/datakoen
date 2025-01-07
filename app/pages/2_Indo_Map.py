@@ -52,15 +52,23 @@ if df_data is not None:
         col1, col2 = st.columns(2)
         with col1:
             choosen_metric_col = st.selectbox(
-                "Select a metrics:", options=df_data.columns
+                "Select a metrics:",
+                options=df_data.select_dtypes(include=["number"]).columns,
             )
 
         with col2:
             choosen_area_col = st.selectbox(
-                "Select the column area:", options=df_data.columns
+                "Select the column area:",
+                options=df_data.select_dtypes(include=["object", "category"]).columns,
             )
 
-        map_maker = lereng.chrmap(level="kab_kota")
+        # identify
+        identifier = lereng.areaname()
+        area_type = identifier.identify_area(df_data, choosen_area_col)
+        logger.info("area type : %s", area_type)
+
+        # make the map
+        map_maker = lereng.chrmap(level=area_type)
         map_maker.insert(
             df_data,
             metric_col=choosen_metric_col,

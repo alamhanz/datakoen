@@ -23,11 +23,14 @@ def upload_data(_logger, text="upload your data", key="dataset"):
         partial_data = pd.read_csv(uploaded_file, nrows=10)
         num_columns = len(partial_data.columns)
 
-        # Check if the column count exceeds 5
-        if num_columns > 7:
-            raise ValueError(
-                f"The file has {num_columns} columns, but the maximum allowed is 7."
-            )
+        # Check if the column count exceeds x
+        max_columns = 7
+        if num_columns > max_columns:
+            with st.sidebar:
+                st.error(
+                    f"The file has {num_columns} columns, but the maximum allowed is {max_columns}."
+                )
+            return None
 
         # Reset file pointer to re-read the full file
         uploaded_file.seek(0)
@@ -38,17 +41,20 @@ def upload_data(_logger, text="upload your data", key="dataset"):
         total_rows = 0
         for chunk in pd.read_csv(uploaded_file, chunksize=chunk_size):
             total_rows += len(chunk)
-            if total_rows > 5000:
-                raise ValueError(
-                    f"The file has more than 5000 rows (current count: {total_rows})."
-                )
+            max_rows = 5000
+            if total_rows > max_rows:
+                with st.sidebar:
+                    st.error(
+                        f"The file has more than {max_rows} rows (current count: {total_rows})."
+                    )
+                return None
 
         # Reset file pointer again to load the data after validation
         uploaded_file.seek(0)
         df_data = pd.read_csv(uploaded_file)
 
         # Display data
-        st.success("File uploaded successfully!")
+        st.sidebar.success("File uploaded successfully!")
 
         return df_data
 

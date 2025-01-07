@@ -8,6 +8,7 @@ import yaml
 from pages.tools.assets import set_assets
 from pages.tools.common import upload_data
 from pages.tools.utils import footer, koen_logger, koenprep
+from streamlit_extras.stylable_container import stylable_container
 
 # from functools import partial
 
@@ -22,39 +23,57 @@ with open("config.yaml", "r") as f:
     st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)
 set_assets(st.session_state["config"])
 
+with open("styles/map_container.css") as ctx:
+    map_container_css = [i for i in ctx.read().split(".container") if len(i) > 0]
+
+
 # opening
-# st.title("COMING SOON ..")
 st.title("Indonesia Choropleth map")
 
-# File uploader
-logger.info("test")
-df_data = upload_data(
-    logger,
-    "Upload Your CSV with Indonesia Area Name and One Metric Value.",
-    "indomap__binaries",
-)
+# output_container = stylable_container(key="map_container", css_styles=map_container_css)
+input_container1 = st.container()
 
-if st.session_state["indomap__binaries"] is not None:
-    # # Create two columns in a single row
-    # col1, col2 = st.columns(2)
 
-    # # Dropdown in the second column for selecting a value
-    # with col1:
-    #     selected_value = st.selectbox(
-    #         "Select a value:", options=["val1", "val2", "val3"]
-    #     )
+with input_container1:
+    # File uploader
+    logger.info("test")
+    df_data = upload_data(
+        logger,
+        "Upload Your CSV with Indonesia Area Name and One Metric Value.",
+        "indomap__binaries",
+    )
 
-    # # Dropdown in the first column for selecting a DataFrame column
-    # with col2:
-    #     selected_column = st.selectbox("Select a metrics:", options=df.columns)
+output_container = st.container()
+input_container2 = st.container()
 
-    # logger.info("generating map")
-    map_maker = lereng.chrmap(level="provinsi")
-    map_maker.insert(df_data, metric="2022", path="app/temp_viz")
-    with open("app/temp_viz/lereng_viz.html", "r") as f:
-        logger.info("read the html")
-        html_content = f.read()
-    st.components.v1.html(html_content, height=400, width=800)
+# if st.session_state["indomap__binaries"] is not None:
+if df_data is not None:
+    with input_container2:
+        col1, col2 = st.columns(2)
+        with col1:
+            choosen_metric_col = st.selectbox(
+                "Select a metrics:", options=df_data.columns
+            )
+
+        with col2:
+            choosen_area_col = st.selectbox(
+                "Select the column area:", options=df_data.columns
+            )
+
+        map_maker = lereng.chrmap(level="kab_kota")
+        map_maker.insert(
+            df_data,
+            metric_col=choosen_metric_col,
+            area_col=choosen_area_col,
+            path="app/temp_viz",
+        )
+        with open("app/temp_viz/lereng_viz.html", "r") as f:
+            logger.info("read the html")
+            html_content = f.read()
+
+    with output_container:
+        with stylable_container(key="map_container", css_styles=map_container_css):
+            st.components.v1.html(html_content, height=400, width=850)
 
 # footer
 footer()

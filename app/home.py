@@ -49,10 +49,10 @@ st.markdown(read_md)
 koen_part_func = partial(koencounter, "home__submitted-form")
 with stylable_container(key="hanzo_container", css_styles=hanzo_container_css):
     #     st.caption("[Hanzo is left the office right now.]")
-    with st.form(key="home__hanzospace", clear_on_submit=True):
+    with st.form(key="home__hanzospace", clear_on_submit=False):
         text = st.text_area(
             "Hanzo Space",
-            "what do you want to ask?",
+            "Who is Alamsyah Hanza?",
         )
         submitted = st.form_submit_button("Submit", on_click=koen_part_func)
 

@@ -3,3 +3,4 @@ asset:
   background: 'assets/kupasdata-bg.jpg'
   icon: 'assets/kupasdata-icon.png'
   home-markdown: 'assets/markdowns/home.md'
+  map-explain: 'assets/markdowns/indomap-table-explain.md'

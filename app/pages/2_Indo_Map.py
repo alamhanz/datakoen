@@ -23,11 +23,17 @@ with open("config.yaml", "r") as f:
     st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)
 set_assets(st.session_state["config"])
 
+with open(st.session_state["config"]["asset"]["map-explain"], "rb") as ctx:
+    read_md = ctx.read().decode("UTF-8")
+
 with open("styles/map_container.css") as ctx:
     map_container_css = [i for i in ctx.read().split(".container") if len(i) > 0]
 
 
 # opening
+# st.write(
+#     "Problem Statement: How easily to create heatmap on indonesia map given cities/province name only?"
+# )
 st.title("Indonesia Choropleth map")
 
 # output_container = stylable_container(key="map_container", css_styles=map_container_css)
@@ -73,7 +79,8 @@ if df_data is not None:
             # Normalize the name
             df_data = identifier.normalize(df_data, choosen_area_col)
             df_data["old_" + choosen_area_col] = df_data[choosen_area_col]
-            df_data[choosen_area_col] = df_data["normalize_area"]
+            df_data[choosen_area_col] = df_data["normalized_area"]
+            # is_already_normalized
 
             # make the map
             map_maker = lereng.chrmap(level=area_type)
@@ -87,13 +94,22 @@ if df_data is not None:
                 logger.info("read the html")
                 html_content = f.read()
 
+            bool_name_same = (
+                df_data[~(df_data["is_already_normalized"])]["old_" + choosen_area_col]
+                == df_data[~(df_data["is_already_normalized"])][choosen_area_col]
+            ).mean()
+
+            if bool_name_same > 0:
+                with st.sidebar:
+                    st.warning("Hugging Face API has reached limit today.")
+
         with output_container:
             with stylable_container(key="map_container", css_styles=map_container_css):
                 st.components.v1.html(html_content, height=400, width=850)
 
     with tab2:
         st.dataframe(df_data)
-
+        st.markdown(read_md)
 
 # footer
 footer()

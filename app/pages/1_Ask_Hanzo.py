@@ -21,7 +21,11 @@ with open("config.yaml", "r") as f:
 set_assets(st.session_state["config"])
 
 # opening
+# st.write(
+#     "Problem Statement: How easily get information about Data and AI technique or professional?"
+# )
 st.title("Chat me about Data and AI")
+
 
 prompt = st.chat_input("Say something")
 if prompt:

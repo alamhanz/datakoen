@@ -33,6 +33,7 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
+logger.info("start")
 
 st.caption(
     """

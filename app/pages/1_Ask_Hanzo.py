@@ -25,10 +25,11 @@ set_assets(st.session_state["config"])
 #     "Problem Statement: How easily get information about Data and AI technique or professional?"
 # )
 st.title("Chat me about Data and AI")
-
+logger.info("start")
 
 prompt = st.chat_input("Say something")
 if prompt:
+    logger.info("asking: %s", prompt)
     answer = st.session_state["1__hanzo"].streaming(input_query=prompt, stream=False)
     st.write(answer)
 

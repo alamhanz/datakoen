@@ -35,6 +35,7 @@ with open("styles/map_container.css") as ctx:
 #     "Problem Statement: How easily to create heatmap on indonesia map given cities/province name only?"
 # )
 st.title("Indonesia Choropleth map")
+logger.info("start")
 
 # output_container = stylable_container(key="map_container", css_styles=map_container_css)
 input_container1 = st.container()
@@ -42,7 +43,6 @@ input_container1 = st.container()
 
 with input_container1:
     # File uploader
-    logger.info("test")
     df_data = upload_data(
         logger,
         "Upload Your CSV with Indonesia Area Name and One Metric Value.",

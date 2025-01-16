@@ -17,23 +17,7 @@ df = upload_data()
 st.title("Title")
 st.markdown("This is a template")
 
-
 ## processing
-if df is not None:
-    df = config_types(df)
-    all_dimensions, all_measures = split_col_types(df)
-    annotated_text("Your data source: ", (st.session_state["dataset"].name, ""))
-    dshape = df.shape
-
-    with st.sidebar:
-        show = st.checkbox("show the data raw")
-        st.success(f"Your total observation is {dshape[0]}")
-
-    ## all processing here
-
-    if show:
-        st.caption("Sample of Raw Data Below")
-        st.table(df.to_pandas().sample(10))
 
 # footer
 footer()

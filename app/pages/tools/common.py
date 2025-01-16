@@ -7,13 +7,13 @@ import pandas as pd
 import streamlit as st
 
 
-def upload_data(_logger, text="upload your data", key="dataset"):
+@st.cache_data
+def upload_data(_logger, uploaded_file):
     """Upload user data.
 
     Returns:
         _type_: _description_
     """
-    uploaded_file = st.file_uploader(text, key=key, type=["csv"])
     if uploaded_file:
         _logger.info("uploading the data")
         # Read the first 10 rows to check the structure
@@ -27,7 +27,7 @@ def upload_data(_logger, text="upload your data", key="dataset"):
                 st.error(
                     f"The file has {num_columns} columns, but the maximum allowed is {max_columns}."
                 )
-            return None
+            return pd.DataFrame()
 
         # Reset file pointer to re-read the full file
         uploaded_file.seek(0)
@@ -44,7 +44,7 @@ def upload_data(_logger, text="upload your data", key="dataset"):
                     st.error(
                         f"The file has more than {max_rows} rows (current count: {total_rows})."
                     )
-                return None
+                return pd.DataFrame()
 
         # Reset file pointer again to load the data after validation
         uploaded_file.seek(0)

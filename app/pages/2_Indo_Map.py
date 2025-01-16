@@ -32,7 +32,8 @@ with open("styles/map_container.css") as ctx:
 
 # opening
 # st.write(
-#     "Problem Statement: How easily to create heatmap on indonesia map given cities/province name only?"
+#     "Problem Statement: How easily to create heatmap
+#       on indonesia map given cities/province name only?"
 # )
 st.title("Indonesia Choropleth map")
 logger.info("start")
@@ -40,19 +41,20 @@ logger.info("start")
 # output_container = stylable_container(key="map_container", css_styles=map_container_css)
 input_container1 = st.container()
 
-
+df_data = []
 with input_container1:
     # File uploader
-    df_data = upload_data(
-        logger,
+    uploaded_file = st.file_uploader(
         "Upload Your CSV with Indonesia Area Name and One Metric Value.",
-        "indomap__binaries",
+        key="indomap__binaries",
+        type=["csv"],
     )
+    df_data = upload_data(logger, uploaded_file)
 
 tab1, tab2 = st.tabs(["Maps", "Table"])
 
 # if st.session_state["indomap__binaries"] is not None:
-if df_data is not None:
+if uploaded_file is not None:
     with tab1:
         output_container = st.container()
         input_container2 = st.container()

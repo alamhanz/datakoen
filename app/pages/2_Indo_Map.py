@@ -54,7 +54,7 @@ with input_container1:
 tab1, tab2 = st.tabs(["Maps", "Table"])
 
 # if st.session_state["indomap__binaries"] is not None:
-if uploaded_file is not None:
+if df_data is not None:
     with tab1:
         output_container = st.container()
         input_container2 = st.container()
@@ -90,7 +90,7 @@ if uploaded_file is not None:
                 df_data,
                 metric_col=choosen_metric_col,
                 area_col=choosen_area_col,
-                path="app/temp_viz",
+                store_path="app/temp_viz",
             )
             with open("app/temp_viz/lereng_viz.html", "r") as f:
                 logger.info("read the html")

@@ -54,6 +54,7 @@ def upload_data(_logger, uploaded_file):
         st.sidebar.success("File uploaded successfully!")
 
         return df_data
+    return None
 
 
 ## Unused

@@ -36,9 +36,9 @@ jobs:
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "FLY_APP=datakoen-dev" >> $GITHUB_ENV
+            export $FLY_APP="datakoen-dev"
           elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            echo "FLY_APP=datakoen" >> $GITHUB_ENV
+            export FLY_APP="datakoen"
           fi
           flyctl secrets set TOGETHER_API_KEY="${{ secrets.TOGETHER_KEY }}" hf_token="${{ secrets.HF_TOKEN }}" --app $FLY_APP
           flyctl deploy --config fly.toml --app $FLY_APP

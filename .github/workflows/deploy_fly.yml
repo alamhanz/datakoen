@@ -12,14 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Authenticate to Google Cloud
-        id: auth
-        uses: google-github-actions/auth@v1
+      - uses: 'actions/checkout@v3'
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: '${{ secrets.GCP_CRED }}'
+          credentials_json: '${{ secrets.GCP_CRED}}'
 
       - name: Set Environment Variables
         run: |

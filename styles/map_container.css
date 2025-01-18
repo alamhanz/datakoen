@@ -1,0 +1,10 @@
+.container {
+    /* align-items: center; */
+    box-sizing: border-box;
+    padding-top: 15px;
+    margin-left: -50px; /* 100px space from the left */
+}
+
+.container div {
+    vertical-align: middle;
+}

@@ -1,5 +1,6 @@
 zippath: 'temp_data/'
 asset:
-  background: 'assets/kupasdata-bg.jpg'
-  icon: 'assets/kupasdata-icon.png'
+  background: 'assets/datakoen-bg.jpg'
+  icon: 'assets/datakoen-icon.png'
   home-markdown: 'assets/markdowns/home.md'
+  map-explain: 'assets/markdowns/indomap-table-explain.md'

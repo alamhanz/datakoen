@@ -12,11 +12,11 @@ with open("styles/sidebar_footer.css") as ctx:
     sidebar_footer_css = [i for i in ctx.read().split(".container") if len(i) > 0]
 
 
-def basicsidebar():
-    """Set basic side bar."""
-    st.sidebar.success("Select the tool above.")
-    st.sidebar.subheader("Navigation")
-    st.sidebar.text("This is some text in the sidebar")
+# def basicsidebar():
+#     """Set basic side bar."""
+#     st.sidebar.success("Select the tool above.")
+#     st.sidebar.subheader("Navigation")
+#     st.sidebar.text("This is some text in the sidebar")
 
 
 def footer():
@@ -73,6 +73,9 @@ def koenprep(part):
                 model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
                 max_token=800,
             )
+    elif part == "2":
+        if "indomap__dataset" not in st.session_state:
+            st.session_state["indomap__dataset"] = None
 
 
 loggers = {}

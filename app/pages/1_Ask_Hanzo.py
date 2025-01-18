@@ -21,13 +21,15 @@ with open("config.yaml", "r") as f:
 set_assets(st.session_state["config"])
 
 # opening
+# st.write(
+#     "Problem Statement: How easily get information about Data and AI technique or professional?"
+# )
 st.title("Chat me about Data and AI")
+logger.info("start")
 
 prompt = st.chat_input("Say something")
 if prompt:
-    # st.write(f"I know your input: {prompt}")
-    # st.write("But sorry, I still need time to learn.")
-
+    logger.info("asking: %s", prompt)
     answer = st.session_state["1__hanzo"].streaming(input_query=prompt, stream=False)
     st.write(answer)
 

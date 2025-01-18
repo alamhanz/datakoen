@@ -2,7 +2,9 @@
 
 📈 I'm not a decent Software Engineer, just a Data Scientist who loves try a new things. So dont expect too much on the UI and the responsiveness. 
 
-🗄️ If you use the tools here, the data wont be stored. Once you've done with the tools, the data will be erased forever.
+🗄️ If you use the tools here, the uploaded data wont be stored. Once you've done with the tools, the data will be erased forever.
+
+💡 Each Pages will mostly consist tools which inspired by my personal problem. Let me know if you have problem on your own. I may help you.
 
 **👈 Select the project or tools from the sidebar** to see some actions.
 

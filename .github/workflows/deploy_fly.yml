@@ -36,7 +36,7 @@ jobs:
           export FLYCTL_INSTALL="/home/runner/.fly"
           export PATH="$FLYCTL_INSTALL/bin:$PATH"
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            export FLY_APP="datakoen-dev"
+            export FLY_APP="datakoen-morning-mountain-783"
           elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
             export FLY_APP="datakoen"
           fi

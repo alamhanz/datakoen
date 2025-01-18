@@ -1,11 +1,11 @@
-name: Fly Deployment
+name: Just Test
 
 on:
   push:
     branches:
-      - main
+      - ss
     tags:
-      - '*'
+      - '0.0.1'
 
 jobs:
   deploy:

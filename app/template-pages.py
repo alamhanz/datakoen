@@ -3,7 +3,8 @@
 import streamlit as st
 import yaml
 from pages.tools.assets import set_assets
-from pages.tools.common import upload_data
+
+# from pages.tools.common import upload_data
 from pages.tools.utils import footer
 
 # asset prep and get data

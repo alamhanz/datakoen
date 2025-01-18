@@ -2,36 +2,53 @@ name: Fly Deployment
 
 on:
   push:
+    branches:
+      - main
     tags:
       - '*'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: 'actions/checkout@v3'
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v1
         with:
-          credentials_json: '${{ secrets.GCP_CRED}}'
+          credentials_json: '${{ secrets.GCP_CRED }}'
 
-      - name: Create Writable Directory
+      - name: Install gcloud CLI
         run: |
-          mkdir -p $GITHUB_WORKSPACE/app/default
-      
-      - name: Copy VDB to Directory
-        run: |
-          gcloud storage cp gs://datakoen/test.txt $GITHUB_WORKSPACE/app/default/my_profile.txt
-          gcloud storage cp -r gs://datakoen/about_me $GITHUB_WORKSPACE/app/default/
-          ls -l app/default/about_me/
+          sudo apt-get update && sudo apt-get install -y google-cloud-sdk
+          gcloud auth activate-service-account --key-file=$GITHUB_WORKSPACE/credentials.json
 
-      - name: Install and run fly.io
+      - name: Set Environment Variables
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "FLY_APP=datakoen-dev" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "FLY_APP=datakoen" >> $GITHUB_ENV
+          fi
+
+      - name: Install Fly.io CLI
+        env:
+          FLYCTL_INSTALL: /home/runner/.fly
+          PATH: $FLYCTL_INSTALL/bin:$PATH
+        run: |
+          curl -L https://fly.io/install.sh | sh 
+
+      - name: Set Fly.io Secrets
         env:
           FLY_TOKEN: ${{ secrets.FLY_TOKEN }}
         run: |
-          curl -L https://fly.io/install.sh | sh 
-          export FLYCTL_INSTALL="/home/runner/.fly"
-          export PATH="$FLYCTL_INSTALL/bin:$PATH"
-          flyctl secrets set TOGETHER_API_KEY='${{ secrets.TOGETHER_KEY}}' --access-token $FLY_TOKEN
-          flyctl deploy --access-token $FLY_TOKEN
+          flyctl secrets set TOGETHER_API_KEY=${{ secrets.TOGETHER_KEY }} hf_token=${{ secrets.HF_TOKEN }} --app $FLY_APP
+
+      - name: Deploy to Fly.io
+        env:
+          FLY_TOKEN: ${{ secrets.FLY_TOKEN }}
+        run: |
+          flyctl deploy --config fly.toml --app $FLY_APP

@@ -24,10 +24,9 @@ jobs:
           gcloud storage cp -r gs://datakoen/about_me $GITHUB_WORKSPACE/app/default/
           ls -l app/default/about_me/
 
-      - name: Install and run fly.io
+      - name: Install Fly.io CLI
         env:
-          FLY_TOKEN: ${{ secrets.FLY_TOKEN }}
+          FLYCTL_INSTALL: /home/runner/.fly
+          PATH: $FLYCTL_INSTALL/bin:$PATH
         run: |
           curl -L https://fly.io/install.sh | sh 
-          export FLYCTL_INSTALL="/home/runner/.fly"
-          export PATH="$FLYCTL_INSTALL/bin:$PATH"

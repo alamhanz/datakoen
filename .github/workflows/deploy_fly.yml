@@ -26,7 +26,16 @@ jobs:
 
       - name: Install Fly.io CLI
         env:
-          FLYCTL_INSTALL: /home/runner/.fly
-          PATH: $FLYCTL_INSTALL/bin:$PATH
+          FLY_TOKEN: ${{ secrets.FLY_TOKEN }}
         run: |
           curl -L https://fly.io/install.sh | sh 
+          export FLYCTL_INSTALL="/home/runner/.fly"
+          export PATH="$FLYCTL_INSTALL/bin:$PATH"
+      
+      - name: Set Environment Variables
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "FLY_APP=datakoen-dev" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "FLY_APP=datakoen" >> $GITHUB_ENV
+          fi

@@ -40,5 +40,5 @@ jobs:
           elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
             echo "FLY_APP=datakoen" >> $GITHUB_ENV
           fi
-          flyctl secrets set TOGETHER_API_KEY=${{ secrets.TOGETHER_KEY }} hf_token=${{ secrets.HF_TOKEN }} --app $FLY_APP
+          flyctl secrets set TOGETHER_API_KEY="${{ secrets.TOGETHER_KEY }}" hf_token="${{ secrets.HF_TOKEN }}" --app $FLY_APP
           flyctl deploy --config fly.toml --app $FLY_APP

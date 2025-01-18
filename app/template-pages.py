@@ -10,7 +10,7 @@ from pages.tools.utils import footer
 with open("config.yaml", "r") as f:
     st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)
 set_assets(st.session_state["config"])
-df = upload_data()
+# df = upload_data()
 
 # opening
 st.title("Title")

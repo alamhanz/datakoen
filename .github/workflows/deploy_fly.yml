@@ -18,14 +18,6 @@ jobs:
         uses: 'google-github-actions/auth@v1'
         with:
           credentials_json: '${{ secrets.GCP_CRED}}'
-
-      - name: Set Environment Variables
-        run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "FLY_APP=datakoen-dev" >> $GITHUB_ENV
-          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            echo "FLY_APP=datakoen" >> $GITHUB_ENV
-          fi
       
       - name: Create Writable Directory
         run: |
@@ -43,6 +35,14 @@ jobs:
           PATH: $FLYCTL_INSTALL/bin:$PATH
         run: |
           curl -L https://fly.io/install.sh | sh 
+
+      - name: Set Environment Variables
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "FLY_APP=datakoen-dev" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "FLY_APP=datakoen" >> $GITHUB_ENV
+          fi
 
       - name: Set Fly.io Secrets
         env:

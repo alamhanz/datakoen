@@ -78,23 +78,24 @@ if df_data is not None:
             area_type = identifier.identify_area(df_data, choosen_area_col)
             logger.info("area type : %s", area_type)
 
-            # Normalize the name
-            df_data = identifier.normalize(df_data, choosen_area_col)
-            df_data["old_" + choosen_area_col] = df_data[choosen_area_col]
-            df_data[choosen_area_col] = df_data["normalized_area"]
-            # is_already_normalized
+            with st.spinner("Normalizing Area Name."):
+                # Normalize the name
+                df_data = identifier.normalize(df_data, choosen_area_col)
+                df_data["old_" + choosen_area_col] = df_data[choosen_area_col]
+                df_data[choosen_area_col] = df_data["normalized_area"]
+                # is_already_normalized
 
-            # make the map
-            map_maker = lereng.chrmap(level=area_type)
-            map_maker.insert(
-                df_data,
-                metric_col=choosen_metric_col,
-                area_col=choosen_area_col,
-                store_path="app/temp_viz",
-            )
-            with open("app/temp_viz/lereng_viz.html", "r") as f:
-                logger.info("read the html")
-                html_content = f.read()
+                # make the map
+                map_maker = lereng.chrmap(level=area_type)
+                map_maker.insert(
+                    df_data,
+                    metric_col=choosen_metric_col,
+                    area_col=choosen_area_col,
+                    store_path="app/temp_viz",
+                )
+                with open("app/temp_viz/lereng_viz.html", "r") as f:
+                    logger.info("read the html")
+                    html_content = f.read()
 
             bool_name_same = (
                 df_data[~(df_data["is_already_normalized"])]["old_" + choosen_area_col]

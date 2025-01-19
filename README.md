@@ -44,4 +44,3 @@ make koen
 * [plotly](https://towardsdatascience.com/visualizing-polars-dataframes-using-plotly-express-8da4357d2ee0)
 * [Sample Size](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7745163/)
 * [Chat GUI](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)
-* [Cloudflare and Fly.io](https://community.fly.io/t/how-to-set-up-cloudflare-with-fly-io-without-fly-certificates/23409)

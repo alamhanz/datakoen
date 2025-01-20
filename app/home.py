@@ -7,7 +7,7 @@ import streamlit as st
 import yaml
 from dotenv import load_dotenv
 from pages.tools.assets import set_assets
-from pages.tools.utils import footer, koen_logger, koencounter, koenprep
+from pages.tools.utils import basicsidebar, footer, koen_logger, koencounter, koenprep
 from streamlit_extras.stylable_container import stylable_container
 
 load_dotenv()
@@ -24,6 +24,8 @@ with open(st.session_state["config"]["asset"]["home-markdown"], "rb") as ctx:
 
 with open("styles/hanzo_container.css") as ctx:
     hanzo_container_css = [i for i in ctx.read().split(".container") if len(i) > 0]
+
+basicsidebar()
 
 st.markdown(
     """

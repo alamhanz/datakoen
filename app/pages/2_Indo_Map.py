@@ -7,7 +7,7 @@ import streamlit as st
 import yaml
 from pages.tools.assets import set_assets
 from pages.tools.common import upload_data
-from pages.tools.utils import footer, koen_logger, koenprep
+from pages.tools.utils import basicsidebar, footer, koen_logger, koenprep
 from streamlit_extras.stylable_container import stylable_container
 
 # from functools import partial
@@ -29,6 +29,8 @@ with open(st.session_state["config"]["asset"]["map-explain"], "rb") as ctx:
 with open("styles/map_container.css") as ctx:
     map_container_css = [i for i in ctx.read().split(".container") if len(i) > 0]
 
+
+basicsidebar()
 
 # opening
 # st.write(

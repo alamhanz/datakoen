@@ -79,11 +79,14 @@ if df_data is not None:
             logger.info("area type : %s", area_type)
 
             with st.spinner("Normalizing Area Name."):
+                original_columns = df_data.columns
+
                 # Normalize the name
                 df_data = identifier.normalize(df_data, choosen_area_col)
                 df_data["old_" + choosen_area_col] = df_data[choosen_area_col]
                 df_data[choosen_area_col] = df_data["normalized_area"]
-                # is_already_normalized
+                other_columns = ["old_" + choosen_area_col, "is_already_normalized"]
+                shown_columns = other_columns + list(original_columns)
 
                 # make the map
                 map_maker = lereng.chrmap(level=area_type)
@@ -93,9 +96,7 @@ if df_data is not None:
                     area_col=choosen_area_col,
                     store_path="app/temp_viz",
                 )
-                with open("app/temp_viz/lereng_viz.html", "r") as f:
-                    logger.info("read the html")
-                    html_content = f.read()
+                html_content = map_maker.rendered_html
 
             bool_name_same = (
                 df_data[~(df_data["is_already_normalized"])]["old_" + choosen_area_col]
@@ -104,14 +105,21 @@ if df_data is not None:
 
             if bool_name_same > 0:
                 with st.sidebar:
-                    st.warning("Hugging Face API has reached limit today.")
+                    if identifier.area_db.api_status == 504:
+                        st.warning(
+                            "Timeout. The Hugging Face API for the model may just started. Please Retry."
+                        )
+                    elif identifier.area_db.api_status == 429:
+                        st.warning("Error. Hugging Face API has reached limit today.")
+                    else:
+                        st.warning("Error. Unidentify problem.")
 
         with output_container:
             with stylable_container(key="map_container", css_styles=map_container_css):
                 st.components.v1.html(html_content, height=400, width=850)
 
     with tab2:
-        st.dataframe(df_data)
+        st.dataframe(df_data[shown_columns])
         st.markdown(read_md)
 
 # footer

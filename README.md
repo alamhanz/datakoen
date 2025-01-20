@@ -1,13 +1,22 @@
 # Datakoen
-"Your all in one tools for data wrangling and insight". --> This is what I hope can be done. But, for now, I use this as my way to showcase my project.
-I open this to everyone who eager to learn or doing non-profit project.
+"Your all in one tools for data wrangling and insight".
+That what I was intended to do for this project. But, for now, I use this as my way to showcase my project. I open this to everyone who eager to learn or doing personal project.
+
+## List of Projects
+
+* **Ask Hanzo**
+  * Problem Statement: How easily get information about Data and AI technique or professional?
+  * Personal Package to solve this: [Hanzo](https://github.com/alamhanz/hanzo)
+* **Indo Map**
+  * Problem Statement: How easily to create heatmap on indonesia map given cities/province name only?"
+  * Personal Package to solve this: [Lereng](https://github.com/alamhanz/lereng)
 
 ## Setup Environment
 
 Using `virtualenv` to setup the environment. 
-It is better use Python 3.8.8 to run the application.
+It is better use Python 3.11.5 to run the application.
 
-```
+```bash
 pip install virtualenv
 virtualenv koen
 source koen/bin/activate
@@ -16,24 +25,26 @@ pip install -r requirements.txt
 
 or run this script for windows users
 
-```
+```bash
 pip install virtualenv
 virtualenv koen
 .\koen\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## Raise Issue
-
-Just raise any bugs, problem, to the issue page [here](https://github.com/alamhanz/datakoen/issues).
-
-
 ## Run The App
 
 once the enviroment activated, run this syntax:
-```
+
+```bash
 make koen
 ```
+
+or simply just build the image from Dockerfile
+
+## Raise Issue
+
+Just raise any bugs, problem, to the issue page [here](https://github.com/alamhanz/datakoen/issues).
 
 ## References
 

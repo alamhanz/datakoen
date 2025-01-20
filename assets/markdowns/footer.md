@@ -23,5 +23,5 @@ text-align: center;
 </style>
 
 <div class="footer">
-<p>Developed with ❤ by <a href="https://alamhanz.xyz/">alamhanz</a></p>
+<p>Developed with 🔥 by <a href="https://alamhanz.xyz/">alamhanz</a></p>
 </div>

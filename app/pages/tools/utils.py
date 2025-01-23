@@ -101,8 +101,11 @@ def koenprep(part):
                 max_token=800,
             )
     elif part == "2":
-        if "indomap__dataset" not in st.session_state:
-            st.session_state["indomap__dataset"] = None
+        if "2__dataset" not in st.session_state:
+            st.session_state["2__dataset"] = None
+
+        if "2__not_normalize" not in st.session_state:
+            st.session_state["2__not_normalize"] = False
 
 
 loggers = {}

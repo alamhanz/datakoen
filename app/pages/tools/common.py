@@ -7,6 +7,15 @@ import pandas as pd
 import streamlit as st
 
 
+def change_boolean_status(state: str):
+    """Change Boolean Session State
+
+    Args:
+        state (str): state name that contain boolean only
+    """
+    st.session_state[state] = not st.session_state[state]
+
+
 @st.cache_data
 def upload_data(_logger, uploaded_file):
     """Upload user data.

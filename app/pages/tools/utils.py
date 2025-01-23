@@ -13,7 +13,9 @@ with open("styles/sidebar_footer.css") as ctx:
 
 
 def basicsidebar():
-    koen_version = "v0.2.0"
+    """basic sidebar function"""
+
+    koen_version = "v0.2.1"
     st.sidebar.text(koen_version)
     #     st.sidebar.text("This is some text in the sidebar")
     # with st.sidebar:
@@ -101,8 +103,11 @@ def koenprep(part):
                 max_token=800,
             )
     elif part == "2":
-        if "indomap__dataset" not in st.session_state:
-            st.session_state["indomap__dataset"] = None
+        if "2__dataset" not in st.session_state:
+            st.session_state["2__dataset"] = None
+
+        if "2__not_normalize" not in st.session_state:
+            st.session_state["2__not_normalize"] = False
 
 
 loggers = {}

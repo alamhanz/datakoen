@@ -8,6 +8,11 @@ import streamlit as st
 
 
 def change_boolean_status(state: str):
+    """Change Boolean Session State
+
+    Args:
+        state (str): state name that contain boolean only
+    """
     st.session_state[state] = not st.session_state[state]
 
 

@@ -13,7 +13,9 @@ with open("styles/sidebar_footer.css") as ctx:
 
 
 def basicsidebar():
-    koen_version = "v0.2.0"
+    """basic sidebar function"""
+
+    koen_version = "v0.2.1"
     st.sidebar.text(koen_version)
     #     st.sidebar.text("This is some text in the sidebar")
     # with st.sidebar:

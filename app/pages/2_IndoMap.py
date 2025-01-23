@@ -132,7 +132,8 @@ if df_data is not None:
                 with st.sidebar:
                     if identifier.area_db.api_status == 504:
                         st.warning(
-                            "Timeout. The Hugging Face API for the model may just started. Please Retry."
+                            """Timeout. The Hugging Face API for the model may just started. 
+                            Please Retry."""
                         )
                         logger.info("Timeout API")
                     elif identifier.area_db.api_status == 429:

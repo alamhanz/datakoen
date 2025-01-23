@@ -51,14 +51,6 @@ with input_container1:
     df_data = upload_data(logger, uploaded_file)
 
 tab1, tab2 = st.tabs(["Maps", "Table"])
-st.markdown(
-    """Upload Your CSV with :
-
-* at least one Indonesia Area Name Column (Province, Kecamatan, or Kabupaten Kota) and
-* at least one Numeric Column.
-        """
-)
-
 with st.sidebar:
     use_sample = None
     if uploaded_file is None:
@@ -71,6 +63,15 @@ with st.sidebar:
 if (use_sample is not None) & (df_data is None):
     logger.info("sample used")
     df_data = lereng.datasample(f"{use_sample}.csv")
+
+if df_data is None:
+    st.markdown(
+        """Upload Your CSV with :
+
+* at least one Indonesia Area Name Column (Province, Kecamatan, or Kabupaten Kota) and
+* at least one Numeric Column.
+            """
+    )
 
 if df_data is not None:
     with tab1:
@@ -102,6 +103,7 @@ if df_data is not None:
             logger.info("area type : %s", area_type)
 
             with st.spinner("Normalizing Area Name."):
+                logger.info("normalizing process")
                 original_columns = df_data.columns
                 # Normalize the name
                 df_data = identifier.normalize(df_data, choosen_area_col)
@@ -109,6 +111,7 @@ if df_data is not None:
                 df_data[choosen_area_col] = df_data["normalized_area"]
                 other_columns = ["old_" + choosen_area_col, "is_already_normalized"]
                 shown_columns = other_columns + list(original_columns)
+                logger.info("normalizing process done")
 
             # make the map
             map_maker = lereng.chrmap(level=area_type)
@@ -131,17 +134,31 @@ if df_data is not None:
                         st.warning(
                             "Timeout. The Hugging Face API for the model may just started. Please Retry."
                         )
+                        logger.info("Timeout API")
                     elif identifier.area_db.api_status == 429:
                         st.warning("Error. Hugging Face API has reached limit today.")
+                        logger.info("Limited API")
                     else:
                         st.warning("Error. Unidentify problem.")
+                        logger.info("Another Problem")
 
         with output_container:
             with stylable_container(key="map_container", css_styles=map_container_css):
                 st.components.v1.html(html_content, height=400, width=850)
 
     with tab2:
-        st.dataframe(df_data[shown_columns])
+        csv_data = (
+            df_data[shown_columns]
+            .sort_values("is_already_normalized")
+            .to_csv(index=False)
+        )
+        st.download_button(
+            label="⬇️ Download CSV",
+            data=csv_data,
+            file_name="datakoen__indomap.csv",
+            mime="text/csv",
+        )
+        st.dataframe(df_data[shown_columns].sort_values("is_already_normalized"))
         st.markdown(read_md)
 
 # footer

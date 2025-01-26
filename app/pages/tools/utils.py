@@ -5,7 +5,7 @@ import sys
 
 import colorlog
 import streamlit as st
-from hanzo import talk, vectordb
+from hanzo import Talk, Vectordb
 from streamlit_extras.stylable_container import stylable_container
 
 with open("styles/sidebar_footer.css") as ctx:
@@ -82,7 +82,7 @@ def koenprep(part):
     if part == "home":
         ## Hanzo Prep
         if "home__vdb" not in st.session_state:
-            st.session_state["home__vdb"] = vectordb(
+            st.session_state["home__vdb"] = Vectordb(
                 model="BAAI/bge-large-en-v1.5",
                 file="app/default/my_profile.txt",
                 db_path="app/default/about_me/",
@@ -90,7 +90,7 @@ def koenprep(part):
             st.session_state["home__vdb"].load()
 
         if "home__hanzo" not in st.session_state:
-            st.session_state["home__hanzo"] = talk(
+            st.session_state["home__hanzo"] = Talk(
                 st.session_state["home__vdb"].db,
                 model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
                 max_token=800,
@@ -98,7 +98,7 @@ def koenprep(part):
             )
     elif part == "1":
         if "1__hanzo" not in st.session_state:
-            st.session_state["1__hanzo"] = talk(
+            st.session_state["1__hanzo"] = Talk(
                 model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
                 max_token=800,
             )

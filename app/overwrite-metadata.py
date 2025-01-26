@@ -1,4 +1,7 @@
+""" Metadata Problem """
+
 from pathlib import Path
+
 import streamlit as st
 
 index = Path(st.__file__).parent / "static" / "index.html"

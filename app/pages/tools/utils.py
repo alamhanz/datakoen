@@ -5,7 +5,7 @@ import sys
 
 import colorlog
 import streamlit as st
-from hanzo import talk, vectordb
+from hanzo import Talk, Vectordb
 from streamlit_extras.stylable_container import stylable_container
 
 with open("styles/sidebar_footer.css") as ctx:

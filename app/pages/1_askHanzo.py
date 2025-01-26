@@ -7,10 +7,6 @@ import yaml
 from pages.tools.assets import set_assets
 from pages.tools.utils import basicsidebar, footer, koen_logger, koenprep
 
-# from functools import partial
-
-# from streamlit_extras.stylable_container import stylable_container
-
 koen_logger("askhanzo")
 logger = logging.getLogger("askhanzo")
 koenprep("1")
@@ -22,10 +18,7 @@ set_assets(st.session_state["config"])
 
 basicsidebar()
 
-# opening
-# st.write(
-#     "Problem Statement: How easily get information about Data and AI technique or professional?"
-# )
+# Opening
 st.title("Chat me about Data and AI")
 logger.info("start")
 

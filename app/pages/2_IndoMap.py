@@ -29,15 +29,10 @@ with open("styles/map_container.css") as ctx:
 
 basicsidebar()
 
-# opening
-# st.write(
-#     "Problem Statement: How easily to create heatmap
-#       on indonesia map given cities/province name only?"
-# )
+# Opening
 st.title("Indonesia Choropleth map")
 logger.info("start")
 
-# output_container = stylable_container(key="map_container", css_styles=map_container_css)
 input_container1 = st.container()
 
 with input_container1:

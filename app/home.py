@@ -27,6 +27,7 @@ with open("styles/hanzo_container.css") as ctx:
 
 basicsidebar()
 
+# Opening
 st.markdown(
     """
     <h1 style='text-align: center; margin-bottom: -35px;'>

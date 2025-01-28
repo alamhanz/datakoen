@@ -26,8 +26,11 @@ with open("config.yaml", "r") as f:
     st.session_state["config"] = yaml.load(f, Loader=yaml.FullLoader)
 set_assets(st.session_state["config"])
 
+with open(st.session_state["config"]["asset"]["map-opening"], "rb") as ctx:
+    read_md_opening = ctx.read().decode("UTF-8")
+
 with open(st.session_state["config"]["asset"]["map-explain"], "rb") as ctx:
-    read_md = ctx.read().decode("UTF-8")
+    read_md_table = ctx.read().decode("UTF-8")
 
 with open("styles/map_container.css") as ctx:
     map_container_css = [i for i in ctx.read().split(".container") if len(i) > 0]
@@ -57,27 +60,19 @@ with st.sidebar:
     if uploaded_file is None:
         use_sample = st.selectbox(
             "Choose Sample Here",
-            (None, "nation_sample_population", "jabar_sample_data_kemiskinan"),
+            (None, "nation_population", "jabar_data"),
             index=0,
         )
 
 if (use_sample is not None) & (df_data is None):
     logger.info("sample used")
-    df_data = lereng.datasample(f"{use_sample}.csv")
+    if use_sample == "nation_population":
+        df_data = lereng.datasample("nation_sample_population.csv")
+    elif use_sample == "jabar_data":
+        df_data = lereng.datasample("jabar_sample_data_kemiskinan.csv")
 
 if df_data is None:
-    st.markdown(
-        """Upload Your CSV with :
-
-* At least one Indonesia Area Name Column (Province, Kecamatan, or Kabupaten Kota) and
-* At least one Numeric Column.
-* Use the **sample provided** in the sidebar if you don't have the data.
-
-Result :
-* The Area Name Column will be normalized to the standard `Indonesia Area Name`. (Like Sumut for Sumatera Utara)
-* The tools will generate the [Choropleth Map](https://en.wikipedia.org/wiki/Choropleth_map) based on the Area Name Column and the Numeric Column.
-        """
-    )
+    st.markdown(read_md_opening)
 
 if df_data is not None:
     with tab1:
@@ -116,7 +111,9 @@ if df_data is not None:
                 df_data["old_" + choosen_area_col] = df_data[choosen_area_col]
                 df_data[choosen_area_col] = df_data["normalized_area"]
                 other_columns = ["old_" + choosen_area_col, "is_already_normalized"]
-                shown_columns = other_columns + list(original_columns)
+                shown_columns = (
+                    other_columns + list(original_columns) + ["longitude", "latitude"]
+                )
                 logger.info("normalizing process done")
 
             # make the map
@@ -154,6 +151,7 @@ if df_data is not None:
                 st.components.v1.html(html_content, height=400, width=850)
 
     with tab2:
+        df_data = df_data.merge(map_maker.data_map, on=area_type)
         csv_data = (
             df_data[shown_columns]
             .sort_values("is_already_normalized")
@@ -166,7 +164,7 @@ if df_data is not None:
             mime="text/csv",
         )
         st.dataframe(df_data[shown_columns].sort_values("is_already_normalized"))
-        st.markdown(read_md)
+        st.markdown(read_md_table)
 
 # footer
 footer()

@@ -1,0 +1,23 @@
+.container {
+        text-align: center;
+        align-items: center;
+        position: fixed;
+        max-height:500px;
+        width:inherit;
+        min-width:inherit;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+.container div {
+        display: inline-block;
+        text-align: middle;
+        vertical-align: middle;
+    }
+
+.container button {
+    padding: 10px 80px;
+    font-size: 16px;
+    cursor: pointer;
+}
+

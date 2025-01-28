@@ -15,7 +15,7 @@ with open("styles/sidebar_footer.css") as ctx:
 def basicsidebar():
     """basic sidebar function"""
 
-    koen_version = "v0.2.1"
+    koen_version = "v0.2.2"
     st.sidebar.text(koen_version)
     #     st.sidebar.text("This is some text in the sidebar")
     # with st.sidebar:
@@ -73,6 +73,15 @@ def koencounter(state_name):
         st.session_state[state_name] = 1
 
 
+def koen_change_bool(state: str):
+    """Change Boolean Session State
+
+    Args:
+        state (str): state name that contain boolean only
+    """
+    st.session_state[state] = not st.session_state[state]
+
+
 def koenprep(part):
     """initial state if needed
 
@@ -108,6 +117,13 @@ def koenprep(part):
 
         if "2__not_normalize" not in st.session_state:
             st.session_state["2__not_normalize"] = False
+
+    elif part == "3":
+        if "3__game_start" not in st.session_state:
+            st.session_state["3__game_start"] = False
+
+        if "3__game_rerun" not in st.session_state:
+            st.session_state["3__game_rerun"] = True
 
 
 loggers = {}

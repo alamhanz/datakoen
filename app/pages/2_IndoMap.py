@@ -7,8 +7,14 @@ import lereng
 import streamlit as st
 import yaml
 from pages.tools.assets import set_assets
-from pages.tools.common import change_boolean_status, upload_data
-from pages.tools.utils import basicsidebar, footer, koen_logger, koenprep
+from pages.tools.common import upload_data
+from pages.tools.utils import (
+    basicsidebar,
+    footer,
+    koen_change_bool,
+    koen_logger,
+    koenprep,
+)
 from streamlit_extras.stylable_container import stylable_container
 
 koen_logger("indomap")
@@ -41,7 +47,7 @@ with input_container1:
         """ """,
         key="2__file_binaries",
         type=["csv"],
-        on_change=partial(change_boolean_status, state="2__not_normalize"),
+        on_change=partial(koen_change_bool, state="2__not_normalize"),
     )
     df_data = upload_data(logger, uploaded_file)
 
@@ -63,9 +69,14 @@ if df_data is None:
     st.markdown(
         """Upload Your CSV with :
 
-* at least one Indonesia Area Name Column (Province, Kecamatan, or Kabupaten Kota) and
-* at least one Numeric Column.
-            """
+* At least one Indonesia Area Name Column (Province, Kecamatan, or Kabupaten Kota) and
+* At least one Numeric Column.
+* Use the **sample provided** in the sidebar if you don't have the data.
+
+Result :
+* The Area Name Column will be normalized to the standard `Indonesia Area Name`. (Like Sumut for Sumatera Utara)
+* The tools will generate the [Choropleth Map](https://en.wikipedia.org/wiki/Choropleth_map) based on the Area Name Column and the Numeric Column.
+        """
     )
 
 if df_data is not None:

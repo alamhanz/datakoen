@@ -105,18 +105,25 @@ def koenprep(part):
                 max_token=800,
                 context_size=5,
             )
+        if "3__game_start" in st.session_state:
+            st.session_state["3__game_start"] = False
     elif part == "1":
         if "1__hanzo" not in st.session_state:
             st.session_state["1__hanzo"] = Talk(
                 model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
                 max_token=800,
             )
+        if "3__game_start" in st.session_state:
+            st.session_state["3__game_start"] = False
     elif part == "2":
         if "2__dataset" not in st.session_state:
             st.session_state["2__dataset"] = None
 
         if "2__not_normalize" not in st.session_state:
             st.session_state["2__not_normalize"] = False
+
+        if "3__game_start" in st.session_state:
+            st.session_state["3__game_start"] = False
 
     elif part == "3":
         if "3__game_start" not in st.session_state:

@@ -43,7 +43,7 @@ st.write(
     Dolphin is using simple DQN Reinforcement Learning to mastering this one."""
 )
 
-if st.session_state.get("3__game_start"):
+if st.session_state.get("3__game_start", False):
     p1, col_sep, p2 = st.columns([1, 0.3, 1])
     slider_rl = dolphin.SliderNumber(human_render=False)
     slider_rl.auto_run()

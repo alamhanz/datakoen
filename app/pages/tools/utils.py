@@ -81,53 +81,56 @@ def koen_change_bool(state: str):
     """
     st.session_state[state] = not st.session_state[state]
 
-    def koenprep(part):
-        """initial state if needed
 
-        Args:
-            part (_type_): _description_
-        """
-        common_keys = ["3__game_start"]
-        if part == "home":
-            specific_keys = {
-                "home__vdb": Vectordb(
-                    model="BAAI/bge-large-en-v1.5",
-                    file="app/default/my_profile.txt",
-                    db_path="app/default/about_me/",
-                ),
-                "home__hanzo": Talk(
-                    st.session_state["home__vdb"].db,
-                    model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-                    max_token=800,
-                    context_size=5,
-                ),
-            }
-        elif part == "1":
-            specific_keys = {
-                "1__hanzo": Talk(
-                    model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-                    max_token=800,
-                ),
-            }
-        elif part == "2":
-            specific_keys = {
-                "2__dataset": None,
-                "2__not_normalize": False,
-            }
-        elif part == "3":
-            specific_keys = {
-                "3__game_rerun": True,
-            }
-        else:
-            specific_keys = {}
+def koenprep(part):
+    """initial state if needed
 
-        for key, value in specific_keys.items():
-            if key not in st.session_state:
-                st.session_state[key] = value
+    Args:
+        part (_type_): _description_
+    """
+    if part == "home":
+        ## Hanzo Prep
+        if "home__vdb" not in st.session_state:
+            st.session_state["home__vdb"] = Vectordb(
+                model="BAAI/bge-large-en-v1.5",
+                file="app/default/my_profile.txt",
+                db_path="app/default/about_me/",
+            )
+            st.session_state["home__vdb"].load()
 
-        for key in common_keys:
-            if key in st.session_state:
-                st.session_state[key] = False
+        if "home__hanzo" not in st.session_state:
+            st.session_state["home__hanzo"] = Talk(
+                st.session_state["home__vdb"].db,
+                model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+                max_token=800,
+                context_size=5,
+            )
+        if "3__game_start" in st.session_state:
+            st.session_state["3__game_start"] = False
+    elif part == "1":
+        if "1__hanzo" not in st.session_state:
+            st.session_state["1__hanzo"] = Talk(
+                model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+                max_token=800,
+            )
+        if "3__game_start" in st.session_state:
+            st.session_state["3__game_start"] = False
+    elif part == "2":
+        if "2__dataset" not in st.session_state:
+            st.session_state["2__dataset"] = None
+
+        if "2__not_normalize" not in st.session_state:
+            st.session_state["2__not_normalize"] = False
+
+        if "3__game_start" in st.session_state:
+            st.session_state["3__game_start"] = False
+
+    elif part == "3":
+        if "3__game_start" not in st.session_state:
+            st.session_state["3__game_start"] = False
+
+        if "3__game_rerun" not in st.session_state:
+            st.session_state["3__game_rerun"] = True
 
 
 loggers = {}

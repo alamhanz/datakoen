@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:edb1fcb7004677ad31ab6bb2db4601ccd98f2ac7398a8cd200e57b2b5f8682e8"
+content_hash = "sha256:88cd863f0427f80cbc7eeb54d69a48616e1eaa36c63b3c3d69952ab5d76c2da4"
 
 [[metadata.targets]]
 requires_python = "==3.11.*"
@@ -1046,10 +1046,10 @@ files = [
 
 [[package]]
 name = "hanzo"
-version = "0.2.8"
+version = "0.2.9"
 requires_python = ">=3.10"
 git = "https://github.com/alamhanz/hanzo.git"
-revision = "0747cd3a6ff17841d179f960666967841bff4774"
+revision = "90ba220a0390f19cf45677bcdae5eaf16ea6a4b4"
 summary = "LLM Project testing"
 groups = ["default"]
 dependencies = [
@@ -1057,6 +1057,7 @@ dependencies = [
     "colorlog==6.9.0",
     "faiss-cpu==1.9.0",
     "google-cloud-storage==2.18.2",
+    "httpx==0.27.2",
     "langchain-chroma==0.1.4",
     "langchain-community==0.3.5",
     "langchain-together==0.2.0",

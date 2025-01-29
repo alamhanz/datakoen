@@ -10,6 +10,9 @@ That what I was intended to do for this project. But, for now, I use this as my 
 * **Indo Map**
   * Problem Statement: How easily to create heatmap on indonesia map given cities/province name only?"
   * Personal Package to solve this: [Lereng](https://github.com/alamhanz/lereng)
+* **SliderNumber**
+  * Problem Statement: Can I create simple DQN for Sliding Number Game?"
+  * Personal Package to solve this: [Dolphin](https://github.com/alamhanz/dolphin)
 
 ## Setup Environment
 

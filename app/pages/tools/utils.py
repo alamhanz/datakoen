@@ -89,48 +89,66 @@ def koenprep(part):
         part (_type_): _description_
     """
     if part == "home":
-        ## Hanzo Prep
-        if "home__vdb" not in st.session_state:
-            st.session_state["home__vdb"] = Vectordb(
-                model="BAAI/bge-large-en-v1.5",
-                file="app/default/my_profile.txt",
-                db_path="app/default/about_me/",
-            )
-            st.session_state["home__vdb"].load()
-
-        if "home__hanzo" not in st.session_state:
-            st.session_state["home__hanzo"] = Talk(
-                st.session_state["home__vdb"].db,
-                model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-                max_token=800,
-                context_size=5,
-            )
-        if "3__game_start" in st.session_state:
-            st.session_state["3__game_start"] = False
+        koenprep_home()
     elif part == "1":
-        if "1__hanzo" not in st.session_state:
-            st.session_state["1__hanzo"] = Talk(
-                model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-                max_token=800,
-            )
-        if "3__game_start" in st.session_state:
-            st.session_state["3__game_start"] = False
+        koenprep_1()
     elif part == "2":
-        if "2__dataset" not in st.session_state:
-            st.session_state["2__dataset"] = None
-
-        if "2__not_normalize" not in st.session_state:
-            st.session_state["2__not_normalize"] = False
-
-        if "3__game_start" in st.session_state:
-            st.session_state["3__game_start"] = False
-
+        koenprep_2()
     elif part == "3":
-        if "3__game_start" not in st.session_state:
-            st.session_state["3__game_start"] = False
+        koenprep_3()
 
-        if "3__game_rerun" not in st.session_state:
-            st.session_state["3__game_rerun"] = True
+
+def koenprep_home():
+    """Initial state for home"""
+    if "home__vdb" not in st.session_state:
+        st.session_state["home__vdb"] = Vectordb(
+            model="BAAI/bge-large-en-v1.5",
+            file="app/default/my_profile.txt",
+            db_path="app/default/about_me/",
+        )
+        st.session_state["home__vdb"].load()
+
+    if "home__hanzo" not in st.session_state:
+        st.session_state["home__hanzo"] = Talk(
+            st.session_state["home__vdb"].db,
+            model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+            max_token=800,
+            context_size=5,
+        )
+    if "3__game_start" in st.session_state:
+        st.session_state["3__game_start"] = False
+
+
+def koenprep_1():
+    """Initial state for part 1"""
+    if "1__hanzo" not in st.session_state:
+        st.session_state["1__hanzo"] = Talk(
+            model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+            max_token=800,
+        )
+    if "3__game_start" in st.session_state:
+        st.session_state["3__game_start"] = False
+
+
+def koenprep_2():
+    """Initial state for part 2"""
+    if "2__dataset" not in st.session_state:
+        st.session_state["2__dataset"] = None
+
+    if "2__not_normalize" not in st.session_state:
+        st.session_state["2__not_normalize"] = False
+
+    if "3__game_start" in st.session_state:
+        st.session_state["3__game_start"] = False
+
+
+def koenprep_3():
+    """Initial state for part 3"""
+    if "3__game_start" not in st.session_state:
+        st.session_state["3__game_start"] = False
+
+    if "3__game_rerun" not in st.session_state:
+        st.session_state["3__game_rerun"] = True
 
 
 loggers = {}

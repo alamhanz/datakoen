@@ -151,7 +151,9 @@ if df_data is not None:
                 st.components.v1.html(html_content, height=400, width=850)
 
     with tab2:
-        df_data = df_data.merge(map_maker.data_map, on=area_type)
+        print(df_data.head(15))
+        df_data = df_data.merge(map_maker.data_map, on=area_type, how="left")
+        print(df_data.head(15))
         csv_data = (
             df_data[shown_columns]
             .sort_values("is_already_normalized")

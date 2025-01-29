@@ -49,4 +49,4 @@ jobs:
               flyctl apps create "$FLY_APP"
           fi
 
-          flyctl deploy --config fly.toml --app "$FLY_APP" --access-token $FLY_TOKEN
+          flyctl deploy --config fly.toml --app $FLY_APP --access-token $FLY_TOKEN

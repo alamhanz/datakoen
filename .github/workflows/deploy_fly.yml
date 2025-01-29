@@ -41,4 +41,12 @@ jobs:
             export FLY_APP="datakoen"
           fi
           flyctl secrets set TOGETHER_API_KEY="${{ secrets.TOGETHER_KEY }}" hf_token="${{ secrets.HF_TOKEN }}" --app $FLY_APP --access-token $FLY_TOKEN
-          flyctl deploy --config fly.toml --app $FLY_APP --access-token $FLY_TOKEN
+          
+          if flyctl apps list | grep -q "$APP_NAME"; then
+              echo "App $APP_NAME exists. Redeploying..."
+          else
+              echo "App $APP_NAME does not exist. Creating..."
+              flyctl apps create "$APP_NAME"
+          fi
+
+          flyctl deploy --config fly.toml --app "$APP_NAME" --access-token $FLY_TOKEN

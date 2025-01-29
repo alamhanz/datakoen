@@ -3,4 +3,5 @@ asset:
   background: 'assets/datakoen-bg.jpg'
   icon: 'assets/datakoen-icon.png'
   home-markdown: 'assets/markdowns/home.md'
+  map-opening: 'assets/markdowns/indomap-opening.md'
   map-explain: 'assets/markdowns/indomap-table-explain.md'

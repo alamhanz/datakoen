@@ -27,6 +27,7 @@ with open("styles/hanzo_container.css") as ctx:
 
 basicsidebar()
 
+# Opening
 st.markdown(
     """
     <h1 style='text-align: center; margin-bottom: -35px;'>
@@ -63,6 +64,7 @@ with stylable_container(key="hanzo_container", css_styles=hanzo_container_css):
             logger.info("question: %s", text)
             hanzo_response = st.session_state["home__hanzo"].invoking(text)
             logger.info("invoking done")
+            print(hanzo_response)
             if isinstance(hanzo_response, dict):
                 st.info(hanzo_response["answer"])
 

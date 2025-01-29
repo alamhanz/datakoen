@@ -1,0 +1,31 @@
+[project]
+name = "datakoen"
+version = "0.3.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "alamhanz", email = "alamhanz@gmail.com"},
+]
+dependencies = [
+    "altair==4.1.0",
+    "PyYAML==6.0",
+    "streamlit==1.40.1",
+    "streamlit-extras==0.4.3",
+    "extra-streamlit-components==0.1.71",
+    "streamlit-keyup==0.2.4",
+    "tox==4.23.2",
+    "hanzo @ git+https://github.com/alamhanz/hanzo.git#0.2.9",
+    "lereng @ git+https://github.com/alamhanz/lereng.git#0.1.0",
+    "dolphin @ git+https://github.com/alamhanz/dolphin.git#0.1.1",
+    "matplotlib==3.9.4",
+    "sliding-puzzles==0.9.1",
+]
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
+
+[tool.setuptools.packages.find]
+where = ["app"]

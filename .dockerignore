@@ -129,3 +129,4 @@ site
 # Pyre type checker
 **/.pyre
 fly.toml
+samples/

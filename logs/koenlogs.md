@@ -1,3 +1,7 @@
+[2025-01-30]
+
+* the docker getting bigger. its like 10 GB.
+
 [2025-01-23]
 
 * fixing metadata [here](https://github.com/streamlit/streamlit/issues/6567#issuecomment-2143512104)

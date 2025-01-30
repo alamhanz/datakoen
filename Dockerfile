@@ -2,7 +2,11 @@ FROM python:3.11.5-slim-bookworm
 EXPOSE 8501
 WORKDIR /app
 
-COPY . .
+COPY app app
+COPY assets assets
+COPY styles styles
+COPY pyproject.toml pyproject.toml
+COPY install.sh install.sh
 RUN apt-get update && apt-get install -y bash
 RUN chmod +x ./install.sh
 RUN ls -l ./install.sh

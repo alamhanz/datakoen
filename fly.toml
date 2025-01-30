@@ -3,27 +3,31 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'datakoen'
-primary_region = 'sin'
+app = "datakoen"
+primary_region = "sin"
 
 [build]
-  dockerfile = 'Dockerfile'
+  dockerfile = "Dockerfile"
 
 [http_service]
   internal_port = 8501
   force_https = true
-  auto_stop_machines = 'stop'
+  auto_stop_machines = "stop"
   auto_start_machines = true
   min_machines_running = 0
-  processes = ['app']
+  processes = ["app"]
   concurrency = { type = "requests", hard_limit = 20, soft_limit = 10 }
 
 [[vm]]
-  memory = '2gb'
-  cpu_kind = 'shared'
+  memory = "2gb"
+  cpu_kind = "shared"
   cpus = 2
 
 [scaling]
   min_machines = 1
   max_machines = 5
-  balance = 'performance'
+  balance = "performance"
+
+[mounts]
+  source = "default-volume"
+  destination = "/data"

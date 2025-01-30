@@ -17,3 +17,6 @@ launch:
 
 fly:
 	powershell -Command "iwr https://fly.io/install.ps1 -useb | iex"
+
+fly-volume-dev:
+	fly volume create "dev_volume" -a dev-datakoen -n 2 -s 20

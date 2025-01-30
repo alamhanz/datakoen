@@ -8,6 +8,10 @@ build-run:
 	docker build -t datakoen:v3 -f Dockerfile .
 	docker run --name datakoenv3 -d -p 8502:8501 datakoen:v3
 
+build-run-mac:
+	docker build --platform=linux/amd64 -t datakoen:v3 -f Dockerfile .
+	docker run --name datakoenv3 -d -p 8502:8501 datakoen:v3
+
 launch:
 	flyctl launch --auto-confirm --copy-config --dockerfile Dockerfile --name datakoen --now --org personal --region sin
 

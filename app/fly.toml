@@ -27,7 +27,3 @@ primary_region = "sin"
   min_machines = 1
   max_machines = 5
   balance = "performance"
-
-[mounts]
-  source = "default-volume"
-  destination = "/data"

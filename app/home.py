@@ -12,6 +12,8 @@ from streamlit_extras.stylable_container import stylable_container
 
 load_dotenv()
 koen_logger("home")
+
+
 logger = logging.getLogger("home")
 koenprep("home")
 
@@ -30,7 +32,7 @@ basicsidebar()
 # Opening
 st.markdown(
     """
-    <h1 style='text-align: center; margin-bottom: -35px;'>
+    <h1 style='text-align: center; margin-bottom: -35px;'> 
     Welcome to DataKoen
     </h1>
 """,
@@ -68,4 +70,5 @@ with stylable_container(key="hanzo_container", css_styles=hanzo_container_css):
             if isinstance(hanzo_response, dict):
                 st.info(hanzo_response["answer"])
 
+footer()
 footer()

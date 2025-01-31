@@ -17,6 +17,7 @@ jobs:
         pip install tox
     - name: Analysing the code with pylint
       run: |
+        cd app/
         tox 
   build:
     runs-on: ubuntu-latest

@@ -122,7 +122,7 @@ if df_data is not None:
                 df_data,
                 metric_col=choosen_metric_col,
                 area_col=choosen_area_col,
-                store_path="app/temp_viz",
+                store_path="temp_viz",
             )
             html_content = map_maker.rendered_html
 

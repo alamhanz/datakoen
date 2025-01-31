@@ -1,6 +1,7 @@
-FROM python:3.11.5-slim-bookworm
+FROM python:3.11.5-slim
 
 # Set environment variables
+ARG TOGETHER_API_KEY
 ENV TOGETHER_API_KEY=${TOGETHER_API_KEY}
 
 # Set the working directory
@@ -22,4 +23,4 @@ RUN pdm run streamlit --version
 EXPOSE 8501
 
 # Set the entrypoint to run the Streamlit app
-ENTRYPOINT ["pdm", "run", "streamlit", "run", "app/home.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["pdm", "run", "streamlit", "run", "home.py", "--server.port=8501", "--server.address=0.0.0.0"]

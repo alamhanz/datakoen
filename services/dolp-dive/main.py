@@ -25,9 +25,14 @@ def verify_token(api_key: str = Security(api_key_header)):
 
 @app.get("/")
 def public_endpoint():
-    return {"message": "Public Access - No Authentication Required"}
+    return {"message": "Private Access - Authentication Required"}
 
 
 @app.get("/secure-data", dependencies=[Depends(verify_token)])
 def protected_endpoint():
     return {"message": "You have access to secure data!"}
+
+
+@app.get("/generate-random-slider-game", dependencies=[Depends(verify_token)])
+def get_slider_data():
+    return {"initial_state": initial_state, "slider_solution": slider_solution}

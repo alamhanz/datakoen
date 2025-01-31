@@ -11,6 +11,7 @@ dependencies = [
     "streamlit-extras==0.4.3",
     "hanzo @ git+https://github.com/alamhanz/hanzo.git#0.2.10",
     "lereng @ git+https://github.com/alamhanz/lereng.git#0.1.0",
+    "dolphin @ git+https://github.com/alamhanz/dolphin.git#0.1.2",
     "sliding-puzzles==0.9.1",
 ]
 requires-python = "==3.11.*"

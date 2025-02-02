@@ -1,4 +1,4 @@
-""" Metadata Problem """
+"""Metadata Problem"""
 
 from pathlib import Path
 

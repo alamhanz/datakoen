@@ -130,3 +130,6 @@ dmypy.json
 temp/
 default/
 app/temp_viz
+
+pdm.lock
+pdm_venv

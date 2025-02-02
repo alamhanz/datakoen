@@ -1,4 +1,4 @@
-""" Slider Number Game Page """
+"""Slider Number Game Page"""
 
 import logging
 from functools import partial

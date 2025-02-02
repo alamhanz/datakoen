@@ -17,35 +17,6 @@ def basicsidebar():
 
     koen_version = "v0.3.0"
     st.sidebar.text(koen_version)
-    #     st.sidebar.text("This is some text in the sidebar")
-    # with st.sidebar:
-    #     sidebar_container_css = [
-    #         """
-    #     {
-    #         background-color: white;
-    #         padding: 5px 0px;
-    #         border-radius: 0.5rem;
-    #         box-sizing: border-box;
-    #         overflow: hidden;
-    #         margin: 0;
-    #     }
-    #     """,
-    #         """
-    #     p {
-    #         margin: 5;
-    #     }
-    #     """,
-    #     ]
-
-    #     with stylable_container(
-    #         key="sidebar_header_container", css_styles=sidebar_container_css
-    #     ):
-    #         with st.container():
-    #             vv = "ss"
-    #             st.markdown(
-    #                 f"""<span style="font-size: 1.5vh; color:red;">{vv}</span>""",
-    #                 unsafe_allow_html=True,
-    #             )
 
 
 def footer():
@@ -103,8 +74,8 @@ def koenprep_home():
     if "home__vdb" not in st.session_state:
         st.session_state["home__vdb"] = Vectordb(
             model="BAAI/bge-large-en-v1.5",
-            file="app/default/my_profile.txt",
-            db_path="app/default/about_me/",
+            file="default/my_profile.txt",
+            db_path="default/about_me/",
         )
         st.session_state["home__vdb"].load()
 

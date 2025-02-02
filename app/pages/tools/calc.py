@@ -1,6 +1,6 @@
 """Calculation Capability
 
-Contains all calculation 
+Contains all calculation
 """
 
 import random

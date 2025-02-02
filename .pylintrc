@@ -429,7 +429,7 @@ disable=raw-checker-failed,
         useless-suppression,
         deprecated-pragma,
         use-symbolic-message-instead,
-        C0103, W1514, E0401, C0209, W0702, E1101, E0110, R1732, R0801
+        C0103, W1514, E0401, C0209, W0702, E1101, E0110, R1732, R0801, wrong-import-order
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

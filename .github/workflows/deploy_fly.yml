@@ -3,7 +3,7 @@ name: Fly Deployment
 on:
   push:
     branches:
-      - main
+      - mainx
     tags:
         - '*'
 

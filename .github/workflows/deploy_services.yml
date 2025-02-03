@@ -34,12 +34,12 @@ jobs:
 
     - name: Push Docker image to Google Container Registry
       run: |
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }}
+        docker asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }}
 
     - name: Deploy to Cloud Run
       run: |
         gcloud run deploy ${{ github.event.inputs.app_name }} \
-          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }} \
+          --image asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }} \
           --region asia-southeast1 \
           --platform managed \
           --allow-unauthenticated

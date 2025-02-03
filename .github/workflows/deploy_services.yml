@@ -1,0 +1,45 @@
+name: Deploy to Google Cloud Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: 'Application name'
+        required: true
+        default: 'dolp-dive'
+        type: choice
+        options:
+          - dolp-dive
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Google Cloud credentials
+      uses: 'google-github-actions/auth@v1'
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        credentials_json: '${{ secrets.GCP_BUILDER_CRED}}'
+
+    - name: Configure Docker to use gcloud as a credential helper
+      run: gcloud auth configure-docker
+
+    - name: Build Docker image
+      run: |
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }} ./services/${{ github.event.inputs.app_name }}
+
+    - name: Push Docker image to Google Container Registry
+      run: |
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }}
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy ${{ github.event.inputs.app_name }} \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }} \
+          --region asia-southeast1 \
+          --platform managed \
+          --allow-unauthenticated

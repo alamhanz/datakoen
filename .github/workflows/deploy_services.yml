@@ -30,7 +30,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }} ./services/${{ github.event.inputs.app_name }}
+        docker build -t asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }} ./services/${{ github.event.inputs.app_name }}
 
     - name: Push Docker image to Google Container Registry
       run: |

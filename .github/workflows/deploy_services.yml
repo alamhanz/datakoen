@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Set up Google Cloud credentials
       uses: 'google-github-actions/auth@v1'
@@ -25,21 +25,21 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         credentials_json: '${{ secrets.GCP_BUILDER_CRED}}'
 
-    - name: Configure Docker to use gcloud as a credential helper
-      run: gcloud auth configure-docker
+    - name: Configure Docker for Artifact Registry
+      run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev
 
     - name: Build Docker image
       run: |
-        docker build -t asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }} ./services/${{ github.event.inputs.app_name }}
+        docker build -t asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/datakoen-services/${{ github.event.inputs.app_name }} ./services/${{ github.event.inputs.app_name }}
 
     - name: Push Docker image to Google Container Registry
       run: |
-        docker push asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }}
+        docker push asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/datakoen-services/${{ github.event.inputs.app_name }}
 
     - name: Deploy to Cloud Run
       run: |
         gcloud run deploy ${{ github.event.inputs.app_name }} \
-          --image asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }} \
+          --image asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/datakoen-services/${{ github.event.inputs.app_name }} \
           --region asia-southeast1 \
           --platform managed \
           --allow-unauthenticated

@@ -34,7 +34,7 @@ jobs:
 
     - name: Push Docker image to Google Container Registry
       run: |
-        docker asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }}
+        docker push asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.app_name }}
 
     - name: Deploy to Cloud Run
       run: |

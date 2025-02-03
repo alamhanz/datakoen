@@ -19,11 +19,6 @@ SECRET_TOKEN = "test123"
 # Define API Key Header Security Scheme
 api_key_header = APIKeyHeader(name="Authorization", auto_error=True)
 
-slider_rl = dolphin.SliderNumber(human_render=False)
-slider_rl.auto_run()
-initial_state = slider_rl.initial_state
-slider_solution = slider_rl.steps
-
 
 # Authentication Dependency
 def verify_token(api_key: str = Security(api_key_header)):
@@ -67,7 +62,24 @@ def protected_endpoint():
 def get_slider_data():
     """_summary_
 
+    Example:
+    To call this API, you can use the following curl command:
+    ```bash
+    curl -X 'GET' \
+        'http://127.0.0.1:8000/generate-random-slider-game' \
+        -H 'accept: application/json' \
+        -H 'Authorization:test123'
+    ```
+
     Returns:
         _type_: _description_
     """
-    return {"initial_state": initial_state, "slider_solution": slider_solution}
+    len_solution = 2000
+    while len_solution > 800:
+        slider_rl = dolphin.SliderNumber(human_render=False)
+        slider_rl.auto_run()
+        initial_state = slider_rl.initial_state
+        slider_solution = slider_rl.steps
+        len_solution = len(slider_solution)
+    print(len_solution)
+    return {"initial_state": initial_state.tolist(), "slider_solution": slider_solution}

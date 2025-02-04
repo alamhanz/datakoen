@@ -3,7 +3,7 @@ name: Fly Deployment
 on:
   push:
     branches:
-      - mainx
+      - main
     tags:
         - '*'
 
@@ -49,5 +49,5 @@ jobs:
             exit 1
           fi
           cd app/
-          flyctl secrets set TOGETHER_API_KEY="${{ secrets.TOGETHER_KEY }}" hf_token="${{ secrets.HF_TOKEN }}" --app $FLY_APP --access-token $FLY_TOKEN
+          flyctl secrets set TOGETHER_API_KEY="${{ secrets.TOGETHER_KEY }}" hf_token="${{ secrets.HF_TOKEN }}" KOEN_TOKEN="${{ secrets.KOEN_TOKEN }}" --app $FLY_APP --access-token $FLY_TOKEN
           flyctl deploy --config fly.toml --app $FLY_APP --access-token $FLY_TOKEN

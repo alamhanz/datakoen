@@ -7,6 +7,8 @@ Returns:
     _type_: _description_
 """
 
+import os
+
 import dolphin
 from fastapi import Depends, FastAPI, HTTPException, Security
 from fastapi.security import APIKeyHeader
@@ -14,7 +16,7 @@ from fastapi.security import APIKeyHeader
 app = FastAPI()
 
 # Predefined Secret Token (you can load this from environment variables)
-SECRET_TOKEN = "test123"
+SECRET_TOKEN = os.getenv("KOEN_TOKEN")
 
 # Define API Key Header Security Scheme
 api_key_header = APIKeyHeader(name="Authorization", auto_error=True)

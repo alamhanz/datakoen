@@ -66,7 +66,7 @@ def get_slider_data():
     To call this API, you can use the following curl command:
     ```bash
     curl -X 'GET' \
-        'http://127.0.0.1:8000/generate-random-slider-game' \
+        'http://127.0.0.1:8001/generate-random-slider-game' \
         -H 'accept: application/json' \
         -H 'Authorization:test123'
     ```

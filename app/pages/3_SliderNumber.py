@@ -93,3 +93,9 @@ else:
 
 # footer
 footer()
+
+
+# curl -X 'GET' \
+#         'https://dolp-dive-467815982612.asia-southeast1.run.app/generate-random-slider-game' \
+#         -H 'accept: application/json' \
+#         -H 'Authorization:test123'

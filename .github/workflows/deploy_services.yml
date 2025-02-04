@@ -44,4 +44,5 @@ jobs:
           --platform managed \
           --allow-unauthenticated \
           --memory 1Gi \
-          --port 8001
+          --port 8001 \
+          --set-env-vars "KOEN_TOKEN=${{ secrets.KOEN_TOKEN }}"

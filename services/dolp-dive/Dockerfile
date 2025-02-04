@@ -8,7 +8,7 @@ COPY . .
 # Make install.sh executable and run it
 RUN chmod +x /app/install.sh && /app/install.sh
 
-# Expose port 8001 for FastAPI
+# Expose port 8004 for FastAPI
 EXPOSE 8001
 
 # Command to run the FastAPI app with Uvicorn on port 8001

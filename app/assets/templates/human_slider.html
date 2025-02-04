@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Number Puzzle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .counter {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+        }
+        .tile {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #3498db;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .empty {
+            background-color: #ecf0f1;
+            cursor: default;
+        }
+        .win .tile {
+            background-color: black;
+            color: white;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <div class="counter" id="moveCounter">Moves: 0</div>
+    <div class="game-container" id="gameBoard"></div>
+    <script>
+        let moveCount = 0;
+
+        function initializeGame(inputArray) {
+            const tiles = inputArray.flat();
+
+            function createBoard() {
+                const gameBoard = document.getElementById("gameBoard");
+                gameBoard.innerHTML = "";
+                tiles.forEach((tile, index) => {
+                    const tileElement = document.createElement("div");
+                    tileElement.classList.add("tile");
+                    if (tile === -1) {
+                        tileElement.classList.add("empty");
+                    } else {
+                        tileElement.textContent = tile;
+                        tileElement.addEventListener("click", () => moveTile(index));
+                    }
+                    gameBoard.appendChild(tileElement);
+                });
+            }
+
+            function moveTile(index) {
+                const emptyIndex = tiles.indexOf(-1);
+                const validMoves = [
+                    index - 1, index + 1,
+                    index - 3, index + 3
+                ];
+                if (validMoves.includes(emptyIndex) && isValidMove(index, emptyIndex)) {
+                    [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+                    moveCount++;
+                    document.getElementById("moveCounter").textContent = `Moves: ${moveCount}`;
+                    createBoard();
+                    checkWin();
+                }
+            }
+
+            function isValidMove(index, emptyIndex) {
+                if (Math.abs(index - emptyIndex) === 1 && Math.floor(index / 3) === Math.floor(emptyIndex / 3)) {
+                    return true;
+                }
+                if (Math.abs(index - emptyIndex) === 3) {
+                    return true;
+                }
+                return false;
+            }
+
+            function checkWin() {
+                if (tiles.join() === "1,2,3,4,5,6,7,8,-1") {
+                    document.getElementById("gameBoard").classList.add("win");
+                    document.getElementById("moveCounter").textContent = `You finished in ${moveCount} moves!`;
+                }
+            }
+
+            createBoard();
+        }
+
+        // Example input
+        const inputArray = {{ inputArray|safe }};
+
+        initializeGame(inputArray);
+    </script>
+</body>
+</html>

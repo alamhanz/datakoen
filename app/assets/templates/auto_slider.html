@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Number Puzzle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .counter {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+        }
+        .tile {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #3498db;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .empty {
+            background-color: #ecf0f1;
+            cursor: default;
+        }
+        .win .tile {
+            background-color: black;
+            color: white;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <div class="counter" id="moveCounter">Moves: 0</div>
+    <div class="game-container" id="gameBoard"></div>
+    <script>
+        let moveCount = 0;
+        // const slider_solution = [0,0, 2];
+        // const inputArray = [[1, -1, 3], [4, 2, 6], [7, 5, 8]];
+        const slider_solution = {{ slider_solution|safe }};
+        const inputArray = {{ inputArray|safe }};
+        const winningState = "1,2,3,4,5,6,7,8,-1";
+
+        function initializeGame(inputArray) {
+            const tiles = inputArray.flat();
+
+            function createBoard() {
+                const gameBoard = document.getElementById("gameBoard");
+                gameBoard.innerHTML = "";
+                tiles.forEach((tile, index) => {
+                    const tileElement = document.createElement("div");
+                    tileElement.classList.add("tile");
+                    if (tile === -1) {
+                        tileElement.classList.add("empty");
+                    } else {
+                        tileElement.textContent = tile;
+                    }
+                    gameBoard.appendChild(tileElement);
+                });
+            }
+
+            function moveTile(move) {
+                const emptyIndex = tiles.indexOf(-1);
+                let moveIndex;
+                switch (move) {
+                    case 0: moveIndex = emptyIndex + 3; break; // Move tile from below up
+                    case 1: moveIndex = emptyIndex - 3; break; // Move tile from above down
+                    case 2: moveIndex = emptyIndex + 1; break; // Move tile from right to left
+                    case 3: moveIndex = emptyIndex - 1; break; // Move tile from left to right
+                }
+                if (moveIndex >= 0 && moveIndex < tiles.length && isValidMove(emptyIndex, moveIndex)) {
+                    [tiles[emptyIndex], tiles[moveIndex]] = [tiles[moveIndex], tiles[emptyIndex]];
+                    moveCount++;
+                    document.getElementById("moveCounter").textContent = `Moves: ${moveCount}`;
+                    createBoard();
+                    checkWin();
+                }
+            }
+
+            function isValidMove(emptyIndex, moveIndex) {
+                if (Math.abs(emptyIndex - moveIndex) === 1 && Math.floor(emptyIndex / 3) === Math.floor(moveIndex / 3)) {
+                    return true;
+                }
+                if (Math.abs(emptyIndex - moveIndex) === 3) {
+                    return true;
+                }
+                return false;
+            }
+
+            function checkWin() {
+                if (tiles.join() === winningState) {
+                    document.getElementById("gameBoard").classList.add("win");
+                    document.getElementById("moveCounter").textContent = `Dolphin finished in ${moveCount} moves!`;
+                }
+            }
+
+            function autoSolve() {
+                slider_solution.forEach((move, index) => {
+                    setTimeout(() => {
+                        moveTile(move);
+                    }, 500 * index);
+                });
+            }
+
+            createBoard();
+            setTimeout(autoSolve, 500);
+        }
+
+        initializeGame(inputArray);
+    </script>
+</body>
+</html>

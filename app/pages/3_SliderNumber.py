@@ -1,12 +1,14 @@
 """Slider Number Game Page"""
 
 import logging
+import os
 from functools import partial
 
-import dolphin
 import numpy as np
+import requests
 import streamlit as st
 import yaml
+from jinja2 import Template
 from pages.tools.assets import set_assets
 from pages.tools.utils import (
     basicsidebar,
@@ -45,13 +47,35 @@ st.write(
 
 if st.session_state.get("3__game_start", False):
     p1, col_sep, p2 = st.columns([1, 0.3, 1])
-    slider_rl = dolphin.SliderNumber(human_render=False)
-    slider_rl.auto_run()
-    initial_state = slider_rl.initial_state
-    slider_solution = slider_rl.steps
-    slider_rl.get_html_template()
+    response = requests.get(
+        "https://dolp-dive-467815982612.asia-southeast1.run.app/generate-random-slider-game",
+        headers={
+            "accept": "application/json",
+            "Authorization": os.getenv("KOEN_TOKEN"),
+        },
+        timeout=3,
+    )
 
-    initial_state = np.array2string(initial_state, separator=", ")
+    if response.status_code == 200:
+        game_data = response.json()
+        auto_slider_path = st.session_state["config"]["asset"]["templates-auto-slider"]
+        with open(auto_slider_path, "r") as file:
+            auto_slider_template = Template(file.read())
+        auto_slider = auto_slider_template
+
+        human_slider_path = st.session_state["config"]["asset"][
+            "templates-human-slider"
+        ]
+        with open(human_slider_path, "r") as file:
+            human_slider_template = Template(file.read())
+        human_slider = human_slider_template
+    else:
+        logger.error("Failed to fetch game data: %s", response.status_code)
+        game_data = {}
+
+    initial_state = game_data.get("initial_state", None)
+    slider_solution = game_data.get("slider_solution", None)
+    initial_state = np.array2string(np.array(initial_state), separator=", ")
     st.write(
         "PS: The Reset will generate new random puzzle. "
         "Also, Dolphin sometimes stucks and can't solve the puzzle. "
@@ -59,7 +83,7 @@ if st.session_state.get("3__game_start", False):
     )
 
     with p1:
-        html_human_slider = slider_rl.human_slider.render(inputArray=initial_state)
+        html_human_slider = human_slider.render(inputArray=initial_state)
         st.components.v1.html(html_human_slider, height=400)
 
     with col_sep:
@@ -80,7 +104,7 @@ if st.session_state.get("3__game_start", False):
         )
 
     with p2:
-        html_auto_slider = slider_rl.auto_slider.render(
+        html_auto_slider = auto_slider.render(
             inputArray=initial_state, slider_solution=slider_solution
         )
         st.components.v1.html(html_auto_slider, height=400)
@@ -93,9 +117,3 @@ else:
 
 # footer
 footer()
-
-
-# curl -X 'GET' \
-#         'https://dolp-dive-467815982612.asia-southeast1.run.app/generate-random-slider-game' \
-#         -H 'accept: application/json' \
-#         -H 'Authorization:test123'

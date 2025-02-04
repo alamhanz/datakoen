@@ -5,3 +5,5 @@ asset:
   home-markdown: 'assets/markdowns/home.md'
   map-opening: 'assets/markdowns/indomap-opening.md'
   map-explain: 'assets/markdowns/indomap-table-explain.md'
+  templates-auto-slider: 'assets/templates/auto_slider.html'
+  templates-human-slider: 'assets/templates/human_slider.html'

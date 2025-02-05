@@ -90,7 +90,7 @@
                 if (moveIndex >= 0 && moveIndex < tiles.length && isValidMove(emptyIndex, moveIndex)) {
                     [tiles[emptyIndex], tiles[moveIndex]] = [tiles[moveIndex], tiles[emptyIndex]];
                     moveCount++;
-                    document.getElementById("moveCounter").textContent = `Moves: ${moveCount}`;
+                    document.getElementById("moveCounter").textContent = `Dolphin Moves: ${moveCount}`;
                     createBoard();
                     checkWin();
                 }

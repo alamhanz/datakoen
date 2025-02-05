@@ -48,7 +48,7 @@ st.write(
 if st.session_state.get("3__game_start", False):
     p1, col_sep, p2 = st.columns([1, 0.3, 1])
     k = 0
-    while k <= 3:
+    while k <= 5:
         try:
             response = requests.get(
                 "https://dolp-dive-467815982612.asia-southeast1.run.app/generate-random-slider-game",
@@ -56,7 +56,7 @@ if st.session_state.get("3__game_start", False):
                     "accept": "application/json",
                     "Authorization": os.getenv("KOEN_TOKEN"),
                 },
-                timeout=1,
+                timeout=0.5,
             )
             status = 200
             k = 10
@@ -124,7 +124,9 @@ if st.session_state.get("3__game_start", False):
 
         st.button("Reset")
     else:
-        st.write("There is a Probelm with Connection. Let Refresh it.")
+        st.write(
+            "There is a Problem with the API. This is maybe the fresh start. Let Refresh it."
+        )
         st.button("Refresh")
 
 else:

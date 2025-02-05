@@ -83,7 +83,7 @@
                 if (validMoves.includes(emptyIndex) && isValidMove(index, emptyIndex)) {
                     [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
                     moveCount++;
-                    document.getElementById("moveCounter").textContent = `Moves: ${moveCount}`;
+                    document.getElementById("moveCounter").textContent = `Your Moves: ${moveCount}`;
                     createBoard();
                     checkWin();
                 }

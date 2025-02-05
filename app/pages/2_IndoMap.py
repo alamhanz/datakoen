@@ -110,7 +110,7 @@ if df_data is not None:
                 df_data = identifier.normalize(df_data, choosen_area_col)
                 df_data["old_" + choosen_area_col] = df_data[choosen_area_col]
                 df_data[choosen_area_col] = df_data["normalized_area"]
-                other_columns = ["old_" + choosen_area_col, "is_already_normalized"]
+                other_columns = ["old_" + choosen_area_col, "need_normalized"]
                 shown_columns = (
                     other_columns + list(original_columns) + ["longitude", "latitude"]
                 )
@@ -127,8 +127,8 @@ if df_data is not None:
             html_content = map_maker.rendered_html
 
             bool_name_same = (
-                df_data[~(df_data["is_already_normalized"])]["old_" + choosen_area_col]
-                == df_data[~(df_data["is_already_normalized"])][choosen_area_col]
+                df_data[~(df_data["need_normalized"])]["old_" + choosen_area_col]
+                == df_data[~(df_data["need_normalized"])][choosen_area_col]
             ).mean()
 
             if bool_name_same > 0:
@@ -147,16 +147,15 @@ if df_data is not None:
                         logger.info("Another Problem")
 
         with output_container:
+            st.write("PS: Yellow means Null Data.")
             with stylable_container(key="map_container", css_styles=map_container_css):
                 st.components.v1.html(html_content, height=400, width=850)
 
     with tab2:
-        print(df_data.head(15))
         df_data = df_data.merge(map_maker.data_map, on=area_type, how="left")
-        print(df_data.head(15))
         csv_data = (
             df_data[shown_columns]
-            .sort_values("is_already_normalized")
+            .sort_values("need_normalized", ascending=False)
             .to_csv(index=False)
         )
         st.download_button(
@@ -165,7 +164,9 @@ if df_data is not None:
             file_name="datakoen__indomap.csv",
             mime="text/csv",
         )
-        st.dataframe(df_data[shown_columns].sort_values("is_already_normalized"))
+        st.dataframe(
+            df_data[shown_columns].sort_values("need_normalized", ascending=False)
+        )
         st.markdown(read_md_table)
 
 # footer

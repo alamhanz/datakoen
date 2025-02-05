@@ -47,16 +47,25 @@ st.write(
 
 if st.session_state.get("3__game_start", False):
     p1, col_sep, p2 = st.columns([1, 0.3, 1])
-    response = requests.get(
-        "https://dolp-dive-467815982612.asia-southeast1.run.app/generate-random-slider-game",
-        headers={
-            "accept": "application/json",
-            "Authorization": os.getenv("KOEN_TOKEN"),
-        },
-        timeout=3,
-    )
+    k = 0
+    while k <= 3:
+        try:
+            response = requests.get(
+                "https://dolp-dive-467815982612.asia-southeast1.run.app/generate-random-slider-game",
+                headers={
+                    "accept": "application/json",
+                    "Authorization": os.getenv("KOEN_TOKEN"),
+                },
+                timeout=1,
+            )
+            status = 200
+            k = 10
+        except requests.exceptions.ReadTimeout:
+            status = 504
+            k += 1
 
-    if response.status_code == 200:
+    # Prepare The Game
+    if status == 200:
         game_data = response.json()
         auto_slider_path = st.session_state["config"]["asset"]["templates-auto-slider"]
         with open(auto_slider_path, "r") as file:
@@ -70,46 +79,53 @@ if st.session_state.get("3__game_start", False):
             human_slider_template = Template(file.read())
         human_slider = human_slider_template
     else:
-        logger.error("Failed to fetch game data: %s", response.status_code)
+        logger.error("Failed to fetch game data")
+        human_slider = ""
+        auto_slider = ""
         game_data = {}
 
-    initial_state = game_data.get("initial_state", None)
-    slider_solution = game_data.get("slider_solution", None)
-    initial_state = np.array2string(np.array(initial_state), separator=", ")
-    st.write(
-        "PS: The Reset will generate new random puzzle. "
-        "Also, Dolphin sometimes stucks and can't solve the puzzle. "
-        "Try to beat it."
-    )
-
-    with p1:
-        html_human_slider = human_slider.render(inputArray=initial_state)
-        st.components.v1.html(html_human_slider, height=400)
-
-    with col_sep:
-        st.markdown(
-            """
-            <style>
-            .separator {
-                border-left: 2px solid #ccc;
-                height: 400px;
-                position: absolute;
-                left: 50%;
-                top: 50%;
-            }
-            </style>
-            <div class="separator"></div>
-            """,
-            unsafe_allow_html=True,
+    # Start The Game
+    if len(game_data) > 0:
+        initial_state = game_data.get("initial_state", None)
+        slider_solution = game_data.get("slider_solution", None)
+        initial_state = np.array2string(np.array(initial_state), separator=", ")
+        st.write(
+            "PS: The Reset will generate new random puzzle. "
+            "Also, Dolphin sometimes stucks and can't solve the puzzle. "
+            "Try to beat it."
         )
 
-    with p2:
-        html_auto_slider = auto_slider.render(
-            inputArray=initial_state, slider_solution=slider_solution
-        )
-        st.components.v1.html(html_auto_slider, height=400)
+        with p1:
+            html_human_slider = human_slider.render(inputArray=initial_state)
+            st.components.v1.html(html_human_slider, height=400)
 
-    st.button("Reset")
+        with col_sep:
+            st.markdown(
+                """
+                <style>
+                .separator {
+                    border-left: 2px solid #ccc;
+                    height: 400px;
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                }
+                </style>
+                <div class="separator"></div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+        with p2:
+            html_auto_slider = auto_slider.render(
+                inputArray=initial_state, slider_solution=slider_solution
+            )
+            st.components.v1.html(html_auto_slider, height=400)
+
+        st.button("Reset")
+    else:
+        st.write("There is a Probelm with Connection. Let Refresh it.")
+        st.button("Refresh")
 
 else:
     with stylable_container(key="start_button", css_styles=startbutton_container_css):
